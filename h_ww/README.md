@@ -2,7 +2,7 @@
 # Higgs → WW
 
 The FCC-ee will operate at center-of-mass energies of 240 and 365 GeV, with integrated luminosities of 10.8 ab⁻¹ and 3 ab⁻¹, respectively. These conditions provide an unprecedented opportunity to study the Higgs boson with high precision. Higgs bosons are produced predominantly via the $e^+e^- \to ZH$ channel, where the Higgs is produced in association with a Z boson. One of the key decay channels to investigate is $H \to WW^*$, which can be analyzed at both center-of-mass energies.
-hh
+hhaa
 ## Challenges
 
 This measurement faces several challenges:
