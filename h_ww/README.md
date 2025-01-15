@@ -26,7 +26,7 @@ The primary goal is to measure the $H \to WW$ decay in various sensitive final s
    Using cross-sections for $WW$ and $ZZ$ processes from [this resource](https://submit.mit.edu/~jaeyserm/fcc/samples/ee_FastSim_winter2023_IDEA.html) (look for `p8_ee_WW` and `p8_ee_ZZ`), calculate the number of expected background events. Compare these to the number of signal events.
 
 3. **Feynman Diagrams**:  
-   Draw the Feynman diagrams for the signal ($H \to WW^*$) and key backgrounds ($WW$, $ZZ$, and $Z/\gamma$). Identify key differences to guide event selection and background discrimination.
+   Draw the Feynman diagrams for the signal $ZH$ ($H \to WW^*$) and key backgrounds ($WW$, $ZZ$, and $Z/\gamma$). Identify key differences to guide event selection and background discrimination.    
 
 ---
 
