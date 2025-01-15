@@ -18,7 +18,9 @@ The primary goal is to measure the $H \to WW$ decay in various sensitive final s
 ## Preliminary Questions
 
 1. **ZH Production Cross-Section**:  
-   The total $ZH$ production cross-section is approximately 200 pb at 240 GeV and 120 pb at 365 GeV. Using the integrated luminosities of 10.8 ab⁻¹ and 3 ab⁻¹, calculate the total number of $ZH$ bosons produced.
+   The total $ZH$ production cross-section is approximately 200 pb at 240 GeV and 120 pb at 365 GeV. Using the integrated luminosities of 10.8 ab⁻¹ and 3 ab⁻¹, calculate the total number of $ZH$ bosons produced. 
+
+   
 
 2. **Background Events**:  
    Using cross-sections for $WW$ and $ZZ$ processes from [this resource](https://submit.mit.edu/~jaeyserm/fcc/samples/ee_FastSim_winter2023_IDEA.html) (look for `p8_ee_WW` and `p8_ee_ZZ`), calculate the number of expected background events. Compare these to the number of signal events.
