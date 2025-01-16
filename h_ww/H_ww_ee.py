@@ -6,9 +6,34 @@ ROOT.TH1.SetDefaultSumw2(ROOT.kTRUE)
 
 # list of all guns
 processList = {
-    'p8_ee_WW_ecm240': {'fraction':1},
-    'wzp6_ee_tautau_ecm91p2': {'fraction':1},
-    'p8_ee_gaga_mumu_ecm91p2': {'fraction':1},
+    'wzp6_ee_nunuH_Hmumu_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_Hbb_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_Hss_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_Hcc_ecm240': {'fraction':1},
+    'wzp6_ee_eeH_Hmumu_ecm240':{'fraction':1},
+    'wzp6_ee_mumuH_Hmumu_ecm240':{'fraction':1},        #signal
+    'wzp6_ee_eeH_Hbb_ecm240':{'fraction':1},
+    'wzp6_ee_eeH_Hss_ecm240':{'fraction':1},
+    'wzp6_ee_eeH_Hcc_ecm240':{'fraction':1},
+    'wzp6_ee_mumuH_Hbb_ecm240':{'fraction':1},
+    'wzp6_ee_mumuH_Hss_ecm240':{'fraction':1},
+    'wzp6_ee_mumuH_Hcc_ecm240':{'fraction':1},
+
+    'wzp6_ee_nunuH_HWW_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_Haa_ecm240': {'fraction':1}, #background
+    'wzp6_ee_nunuH_Hgg_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_HZZ_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_HZa_ecm240': {'fraction':1},
+    'wzp6_ee_eeH_HZZ_ecm240': {'fraction':1},        
+    'wzp6_ee_eeH_HWW_ecm240': {'fraction':1},
+    'wzp6_ee_eeH_Haa_ecm240': {'fraction':1},
+    'wzp6_ee_mumuH_HZZ_ecm240': {'fraction':1}, 
+    'wzp6_ee_mumuH_HWW_ecm240': {'fraction':1},
+    'wzp6_ee_mumuH_Haa_ecm240':  {'fraction':1},
+    'wzp6_ee_mumuH_HZa_ecm240': {'fraction':1},
+    'wzp6_ee_mumuH_Hgg_ecm240': {'fraction':1},
+    'wzp6_ee_eeH_Hgg_ecm240': {'fraction':1},
+    'wzp6_ee_eeH_HZa_ecm240':{'fraction':1}    
 }
 
 
@@ -29,7 +54,7 @@ nCPUS       = 128
 
 # scale the histograms with the cross-section and integrated luminosity
 doScale = False
-intLumi = 10.8e6 # 44.84 pb-1 = LEP, 100e6=100 ab-1 = FCCee
+intLumi = 10.8e9 # 44.84 pb-1 = LEP, 100e6=100 ab-1 = FCCee
 
 # define histograms
 bins_p_mu = (200, 0, 200) # 1 GeV bins
@@ -88,39 +113,39 @@ def build_graph(df, dataset):
     #########
     ### CUT 1: select at least 1 muon
     #########
-    df = df.Filter("muons_no >= 1")
+    #df = df.Filter("muons_no >= 1")
 
-    df = df.Define("cut1", "1")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut1"))
+    #df = df.Define("cut1", "1")
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut1"))
 
     #########
     ### CUT 2: select at least 2 muons
     #########
-    df = df.Filter("muons_no >= 2")
+    #df = df.Filter("muons_no >= 2")
 
-    df = df.Define("cut2", "2")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut2"))
+    #df = df.Define("cut2", "2")
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut2"))
 
 
     #########
     ### CUT 3: require exactly 2 opposite-sign muons
     #########
-    df = df.Filter("muons_no == 2 && (muons_q[0] + muons_q[1]) == 0")
+    #df = df.Filter("muons_no == 2 && (muons_q[0] + muons_q[1]) == 0")
 
-    df = df.Define("cut3", "3")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
+    #df = df.Define("cut3", "3")
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
 
 
     #########
     ### CUT 4: max normalized muon momentum > 0.6
     #########
-    df = df.Define("muon_max_p", "(muons_p[0] > muons_p[1]) ? muons_p[0] : muons_p[1]")
-    df = df.Define("muon_max_p_norm", "muon_max_p/45.6")
-    hists.append(df.Histo1D(("muon_max_p_norm", "", *bins_norm), "muon_max_p_norm"))
-    df = df.Filter("muon_max_p_norm > 0.6")
+    #df = df.Define("muon_max_p", "(muons_p[0] > muons_p[1]) ? muons_p[0] : muons_p[1]")
+    #df = df.Define("muon_max_p_norm", "muon_max_p/45.6")
+    #hists.append(df.Histo1D(("muon_max_p_norm", "", *bins_norm), "muon_max_p_norm"))
+    #df = df.Filter("muon_max_p_norm > 0.6")
 
-    df = df.Define("cut4", "4")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
+    #df = df.Define("cut4", "4")
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
 
 
     ############################################################################
