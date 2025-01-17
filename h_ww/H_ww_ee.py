@@ -10,14 +10,14 @@ processList = {
     'wzp6_ee_nunuH_Hbb_ecm240': {'fraction':1},
     'wzp6_ee_nunuH_Hss_ecm240': {'fraction':1},
     'wzp6_ee_nunuH_Hcc_ecm240': {'fraction':1},
-    'wzp6_ee_eeH_Hmumu_ecm240':{'fraction':1},
-    'wzp6_ee_mumuH_Hmumu_ecm240':{'fraction':1},        #signal
-    'wzp6_ee_eeH_Hbb_ecm240':{'fraction':1},
-    'wzp6_ee_eeH_Hss_ecm240':{'fraction':1},
-    'wzp6_ee_eeH_Hcc_ecm240':{'fraction':1},
-    'wzp6_ee_mumuH_Hbb_ecm240':{'fraction':1},
-    'wzp6_ee_mumuH_Hss_ecm240':{'fraction':1},
-    'wzp6_ee_mumuH_Hcc_ecm240':{'fraction':1},
+    'wzp6_ee_eeH_Hmumu_ecm240': {'fraction':1},
+    'wzp6_ee_mumuH_Hmumu_ecm240': {'fraction':1},        #signal
+    'wzp6_ee_eeH_Hbb_ecm240': {'fraction':1},
+    'wzp6_ee_eeH_Hss_ecm240': {'fraction':1},
+    'wzp6_ee_eeH_Hcc_ecm240': {'fraction':1},
+    'wzp6_ee_mumuH_Hbb_ecm240': {'fraction':1},
+    'wzp6_ee_mumuH_Hss_ecm240': {'fraction':1},
+    'wzp6_ee_mumuH_Hcc_ecm240': {'fraction':1},
 
     'wzp6_ee_nunuH_HWW_ecm240': {'fraction':1},
     'wzp6_ee_nunuH_Haa_ecm240': {'fraction':1}, #background
@@ -33,10 +33,13 @@ processList = {
     'wzp6_ee_mumuH_HZa_ecm240': {'fraction':1},
     'wzp6_ee_mumuH_Hgg_ecm240': {'fraction':1},
     'wzp6_ee_eeH_Hgg_ecm240': {'fraction':1},
-    'wzp6_ee_eeH_HZa_ecm240':{'fraction':1}    
+    'wzp6_ee_eeH_HZa_ecm240': {'fraction':1}    
 }
 
-
+#if I understand this correctly, this code really doesn't care what's signal and what's background, it just plots everything. 
+#The signal/background distinction is made in the plotting code, not here.
+#meaning in a collider experiment, everything happens, and we then decide what to look at afterwards by 
+#doing the slicing and dicing in the plotting code.
 
 inputDir = "/ceph/submit/data/group/fcc/ee/generation/DelphesEvents/winter2023/IDEA/"
 procDict = "/ceph/submit/data/group/fcc/ee/generation/DelphesEvents/winter2023/IDEA/samplesDict.json"
@@ -79,14 +82,16 @@ def build_graph(df, dataset):
 
     df = df.Define("weight", "1.0")
     weightsum = df.Sum("weight")
-
+    #Here, only muons, need to add the relevant particles for the four different outcome states
+    #we are focusing on...
     df = df.Alias("Particle0", "Particle#0.index")
     df = df.Alias("Particle1", "Particle#1.index")
     df = df.Alias("MCRecoAssociations0", "MCRecoAssociations#0.index")
     df = df.Alias("MCRecoAssociations1", "MCRecoAssociations#1.index")
     df = df.Alias("Muons", "Muon#0.index")
-
-    # reco muons
+    #something wrong... maybe need something like "Muons" downstairs
+    #maybe there is no nutrinos... missing energy remember.
+    # defining the reconstructed muons, and variables associated to them
     df = df.Define("muons_all", "FCCAnalyses::ReconstructedParticle::get(Muons, ReconstructedParticles)")
     df = df.Define("muons_all_p", "FCCAnalyses::ReconstructedParticle::get_p(muons_all)")
     df = df.Define("muons_all_theta", "FCCAnalyses::ReconstructedParticle::get_theta(muons_all)")
@@ -103,7 +108,64 @@ def build_graph(df, dataset):
     df = df.Define("muons_no", "FCCAnalyses::ReconstructedParticle::get_n(muons)")
     df = df.Define("muons_q", "FCCAnalyses::ReconstructedParticle::get_charge(muons)")
 
+    # Z(nunu) WW (mu nu mu nu)
+    df = df.Define("neutrinos", "FCCAnalyses::ReconstructedParticle::get_neutrinos(ReconstructedParticles)")
+    df = df.Define("muons", "FCCAnalyses::ReconstructedParticle::get_muons(ReconstructedParticles)")
+    df = df.Define("Z_nn_mass", "FCCAnalyses::invariant_mass(neutrinos)")
+    df = df.Define("WW_mumu_mass", "FCCAnalyses::invariant_mass(muons)")
 
+    hists.append(df.Histo1D(("Z_nn_mass", "Z(nunu) mass", 100, 0, 200), "Z_nn_mass"))
+    hists.append(df.Histo1D(("WW_mumu_mass", "WW(munumunu) mass", 100, 0, 200), "WW_mumu_mass"))
+
+    # Z (nunu) WW (bb)
+    df = df.Define("bottom", "FCCAnalyses::ReconstructedParticle::get_quarks(ReconstructedParticles)")
+    df = df.Define("WW_bb_mass", "FCCAnalyses::invariant_mass(bottom)")
+
+    hists.append(df.Histo1D(("WW_qq_mass", "WW(bb) mass", 100, 0, 200), "WW_qq_mass"))
+
+    # Z (nunu) WW (ss)
+    df = df.Define("strange", "FCCAnalyses::ReconstructedParticle::get_quarks(ReconstructedParticles)")
+    df = df.Define("WW_ss_mass", "FCCAnalyses::invariant_mass(strange)")
+
+    hists.append(df.Histo1D(("WW_qq_mass", "WW(ss) mass", 100, 0, 200), "WW_qq_mass"))
+
+    # Z (nunu) WW (cc)
+    df = df.Define("charm", "FCCAnalyses::ReconstructedParticle::get_quarks(ReconstructedParticles)")
+    df = df.Define("WW_cc_mass", "FCCAnalyses::invariant_mass(charm)")
+
+    hists.append(df.Histo1D(("WW_qq_mass", "WW(cc) mass", 100, 0, 200), "WW_qq_mass"))
+
+    # Z (e+e−) WW (munumunu)
+    df = df.Define("Z_mumu_mass", "FCCAnalyses::invariant_mass(muons)")
+    hists.append(df.Histo1D(("Z_mumu_mass", "Z(e+e−) mass", 100, 0, 200), "Z_mumu_mass"))
+
+    # Z (mumu) WW (munumunu)
+    df = df.Define("Z_mumu_mass", "FCCAnalyses::invariant_mass(muons)")
+    hists.append(df.Histo1D(("Z_mumu_mass", "Z(mumu) mass", 100, 0, 200), "Z_mumu_mass"))
+
+    # Z (e+e−) WW (bb)
+    df = df.Define("WW_bb_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
+    hists.append(df.Histo1D(("WW_bb_mass", "WW(ee) mass", 100, 0, 200), "WW_bb_mass"))
+
+    # Z (e+e−) WW (ss)
+    df = df.Define("WW_ss_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
+    hists.append(df.Histo1D(("WW_ss_mass", "WW(ee) mass", 100, 0, 200), "WW_ss_mass"))
+
+    # Z (e+e−) WW (cc)
+    df = df.Define("WW_cc_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
+    hists.append(df.Histo1D(("WW_cc_mass", "WW(ee) mass", 100, 0, 200), "WW_cc_mass"))
+
+    # Z (mu+mu-) WW (bb)
+    df = df.Define("WW_bb_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
+    hists.append(df.Histo1D(("WW_bb_mass", "WW(mumu) mass", 100, 0, 200), "WW_bb_mass"))
+
+    # Z (mu+mu-) WW (ss)
+    df = df.Define("WW_ss_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
+    hists.append(df.Histo1D(("WW_ss_mass", "WW(mumu) mass", 100, 0, 200), "WW_ss_mass"))
+
+    # Z (mu+mu-) WW (cc)
+    df = df.Define("WW_cc_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
+    hists.append(df.Histo1D(("WW_cc_mass", "WW(mumu) mass", 100, 0, 200), "WW_cc_mass"))
     #########
     ### CUT 0: all events
     #########
@@ -130,10 +192,10 @@ def build_graph(df, dataset):
     #########
     ### CUT 3: require exactly 2 opposite-sign muons
     #########
-    #df = df.Filter("muons_no == 2 && (muons_q[0] + muons_q[1]) == 0")
+    df = df.Filter("muons_no == 2 && (muons_q[0] + muons_q[1]) == 0")
 
-    #df = df.Define("cut3", "3")
-    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
+    df = df.Define("cut3", "3")
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
 
 
     #########

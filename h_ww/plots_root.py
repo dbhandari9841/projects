@@ -2,13 +2,13 @@ import ROOT
 
 # global parameters
 intLumi        = 1. # assume histograms are scaled in previous step
-intLumiLabel   = "L = 100 ab^{-1}"
+intLumiLabel   = "L = 10.8 ab^{-1}"
 ana_tex        = 'e^{+}e^{-} #rightarrow Z #rightarrow #mu^{#plus}#mu^{#minus}'
-energy         = 91.2
+energy         = 240. # GeV
 collider       = 'FCC-ee'
 formats        = ['png','pdf']
 
-outdir         = '/home/submit/dipeshb/fcc-ee/tutorials/03_CrossSection/z_mumu_xsec/'
+outdir         = '/home/submit/dipeshb/fcc-ee/projects/h_ww/H_ww_eeOutput/'
 inputDir       = './output/' 
 
 plotStatUnc    = False
