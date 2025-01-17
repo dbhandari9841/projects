@@ -3,7 +3,7 @@ import ROOT
 # global parameters
 intLumi        = 1. # assume histograms are scaled in previous step
 intLumiLabel   = "L = 10.8 ab^{-1}"
-ana_tex        = 'e^{+}e^{-} #rightarrow Z #rightarrow #mu^{#plus}#mu^{#minus}'
+ana_tex        = 'e^{+}e^{-} #rightarrow ZH #rightarrow ZWW'
 energy         = 240. # GeV
 collider       = 'FCC-ee'
 formats        = ['png','pdf']
@@ -55,66 +55,71 @@ procs['backgrounds'] =  {
 
 colors = {}             #Signal
 colors['nunuHmumu'] = ROOT.kRed  #Red because we were looking at it primarily, might need to adjust
-colors['nunuHbb'] = ROOT.kBlue+1
+colors['nunuHbb'] = ROOT.kRed+1
 colors['nunuHss'] = ROOT.kRed+2
-colors['nunuHcc'] = ROOT.kRed
+colors['nunuHcc'] = ROOT.kRed+3
 
-colors['eeHmumu'] = ROOT.kBlue+1
-colors['eeHbb'] = ROOT.kRed
-colors['eeHss'] = ROOT.kBlue+1
-colors['eeHcc'] = ROOT.kRed+2
+colors['eeHmumu'] = ROOT.kYellow
+colors['eeHbb'] = ROOT.kYellow+1
+colors['eeHss'] = ROOT.kYellow+2
+colors['eeHcc'] = ROOT.kYellow+3
 
-colors['mumuHmumu'] = ROOT.kRed+2
-colors['mumuHbb'] = ROOT.kRed
-colors['mumuHss'] = ROOT.kBlue+1
-colors['mumuHcc'] = ROOT.kRed+2
+colors['mumuHmumu'] = ROOT.kBlue    
+colors['mumuHbb'] = ROOT.kBlue+1
+colors['mumuHss'] = ROOT.kBlue+2
+colors['mumuHcc'] = ROOT.kBlue+3
 
 
             #Background
-colors['nunuHWW'] = ROOT.kRed
-colors['nunuHaa'] = ROOT.kBlue+1
-colors['nunuHgg'] = ROOT.kRed+2
-colors['nunuHZZ'] = ROOT.kRed
-colors['nunuHZa'] = ROOT.kBlue+1
+colors['nunuHWW'] = ROOT.kPink
+colors['nunuHZZ'] = ROOT.kPink+3
+colors['nunuHZa'] = ROOT.kPink+4
+colors['nunuHaa'] = ROOT.kPink+1
+colors['nunuHgg'] = ROOT.kPink+2
 
-colors['eeHWW'] = ROOT.kRed
-colors['eeHaa'] = ROOT.kBlue+1
-colors['eeHgg'] = ROOT.kRed+2
-colors['eeHZZ'] = ROOT.kRed+2
-colors['eeHZa'] = ROOT.kRed+2
+colors['eeHWW'] = ROOT.kMagenta
+colors['eeHZZ'] = ROOT.kMagenta+3
+colors['eeHZa'] = ROOT.kMagenta+4
+colors['eeHaa'] = ROOT.kMagenta+1
+colors['eeHgg'] = ROOT.kMagenta+2
 
-colors['mumuHWW'] = ROOT.kRed+2
-colors['mumuHaa'] = ROOT.kRed+2
-colors['mumuHgg'] = ROOT.kRed+2
-colors['mumuHZZ'] = ROOT.kRed+2
-colors['mumuHZa'] = ROOT.kRed+2
+colors['mumuHWW'] = ROOT.kOrange
+colors['mumuHZZ'] = ROOT.kOrange+3
+colors['mumuHZa'] = ROOT.kOrange+4
+colors['mumuHaa'] = ROOT.kOrange+1
+colors['mumuHgg'] = ROOT.kOrange+2
+
 
 
 legend = {}
-legend['mumu'] = "#mu^{#plus}#mu^{#minus}"
-legend['gaga'] = "e^{#plus}e^{#minus}qq"
-legend['tautau'] = "#tau^{#plus}#tau^{#minus}"
-legend['mumu'] = "#mu^{#plus}#mu^{#minus}"
-legend['gaga'] = "e^{#plus}e^{#minus}qq"
-legend['tautau'] = "#tau^{#plus}#tau^{#minus}"
-legend['mumu'] = "#mu^{#plus}#mu^{#minus}"
-legend['gaga'] = "e^{#plus}e^{#minus}qq"
-legend['tautau'] = "#tau^{#plus}#tau^{#minus}"
-legend['mumu'] = "#mu^{#plus}#mu^{#minus}"
-legend['gaga'] = "e^{#plus}e^{#minus}qq"
-legend['tautau'] = "#tau^{#plus}#tau^{#minus}"
-legend['mumu'] = "#mu^{#plus}#mu^{#minus}"
-legend['gaga'] = "e^{#plus}e^{#minus}qq"
-legend['tautau'] = "#tau^{#plus}#tau^{#minus}"
-legend['mumu'] = "#mu^{#plus}#mu^{#minus}"
-legend['gaga'] = "e^{#plus}e^{#minus}qq"
-legend['tautau'] = "#tau^{#plus}#tau^{#minus}"
-legend['mumu'] = "#mu^{#plus}#mu^{#minus}"
-legend['gaga'] = "e^{#plus}e^{#minus}qq"
-legend['tautau'] = "#tau^{#plus}#tau^{#minus}"
-legend['mumu'] = "#mu^{#plus}#mu^{#minus}"
-legend['gaga'] = "e^{#plus}e^{#minus}qq"
-legend['tautau'] = "#tau^{#plus}#tau^{#minus}"
+legend['nunuHmumu'] = "#nu #nu H #rightarrow #mu^{#plus}#mu^{#minus}"
+legend['nunuHbb'] = "#nu #nu H #rightarrow b#bar{b}"
+legend['nunuHss'] = "#nu #nu H #rightarrow s#bar{s}"
+legend['nunuHcc'] = "#nu #nu H #rightarrow c#bar{c}"
+legend['eeHmumu'] = "e^{#plus}e^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}"
+legend['eeHbb'] = "e^{#plus}e^{#minus}H #rightarrow b#bar{b}"
+legend['eeHss'] = "e^{#plus}e^{#minus}H #rightarrow s#bar{s}"
+legend['eeHcc'] = "e^{#plus}e^{#minus}H #rightarrow c#bar{c}"
+legend['mumuHmumu'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}"
+legend['mumuHbb'] = "#mu^{#plus}#mu^{#minus}H #rightarrow b#bar{b}"
+legend['mumuHss'] = "#mu^{#plus}#mu^{#minus}H #rightarrow s#bar{s}"
+legend['mumuHcc'] = "#mu^{#plus}#mu^{#minus}H #rightarrow c#bar{c}"
+
+legend['nunuHWW'] = "#nu #nu H #rightarrow WW"
+legend['nunuHZZ'] = "#nu #nu H #rightarrow WW"
+legend['nunuHaa'] = "#nu #nu H #rightarrow aa"
+legend['nunuHZa'] = "#nu #nu H #rightarrow Za"
+legend['nunuHgg'] = "#nu #nu H #rightarrow gg"
+legend['eeHWW'] = "e^{#plus}e^{#minus}H #rightarrow WW"
+legend['eeHZZ'] = "e^{#plus}e^{#minus}H #rightarrow ZZ"
+legend['eeHaa'] = "e^{#plus}e^{#minus}H #rightarrow aa"
+legend['eeHZa'] = "e^{#plus}e^{#minus}H #rightarrow Za"
+legend['eeHgg'] = "e^{#plus}e^{#minus}H #rightarrow gg"
+legend['mumuHWW'] = "#mu^{#plus}#mu^{#minus}H #rightarrow WW"
+legend['mumuHZZ'] = "#mu^{#plus}#mu^{#minus}H #rightarrow ZZ"
+legend['mumuHaa'] = "#mu^{#plus}#mu^{#minus}H #rightarrow aa"
+legend['mumuHZa'] = "#mu^{#plus}#mu^{#minus}H #rightarrow Za"
+legend['mumuHgg'] = "#mu^{#plus}#mu^{#minus}H #rightarrow gg"
 
 hists = {}
 
@@ -145,18 +150,18 @@ hists["muons_all_costheta"] = {
     "ytitle":   "Events",
 }
 
-hists["muon_max_p_norm"] = {
-    "output":   "muon_max_p_norm",
-    "logy":     True,
-    "stack":    True,
-    "rebin":    1,
-    "xmin":     0,
-    "xmax":     2,
-    "ymin":     0.1,
-    #"ymax":     1e8,
-    "xtitle":   "p(#mu_{max})/E_{beam}",
-    "ytitle":   "Events",
-}
+#hists["muon_max_p_norm"] = {
+#    "output":   "muon_max_p_norm",
+#    "logy":     True,
+#    "stack":    True,
+#    "rebin":    1,
+#    "xmin":     0,
+#    "xmax":     2,
+#    "ymin":     0.1,
+#    #"ymax":     1e8,
+#    "xtitle":   "p(#mu_{max})/E_{beam}",
+#    "ytitle":   "Events",
+#}
 
 hists["acolinearity"] = {
     "output":   "acolinearity",
@@ -185,28 +190,28 @@ hists["invariant_mass"] = {
     "ytitle":   "Events",
 }
 
-hists["muon1_p"] = {
-    "output":   "muon1_p",
-    "logy":     True,
-    "stack":    True,
-    "rebin":    1,
-    "xmin":     0,
-    "xmax":     150,
-    "ymin":     1e-3,
-    #"ymax":     1e6,
-    "xtitle":   "muon1_momentum",
-    "ytitle":   "Events",
-}
+#hists["muon1_p"] = {
+#    "output":   "muon1_p",
+#    "logy":     True,
+#    "stack":    True,
+#    "rebin":    1,
+#    "xmin":     0,
+#    "xmax":     150,
+#    "ymin":     1e-3,
+#    #"ymax":     1e6,
+#    "xtitle":   "muon1_momentum",
+#    "ytitle":   "Events",
+#}
 
-hists["muon2_p"] = {
-    "output":   "muon2_p",
-    "logy":     True,
-    "stack":    True,
-    "rebin":    1,
-    "xmin":     0,
-    "xmax":     150,
-    "ymin":     1e-3,
-    #"ymax":     1e6,
-    "xtitle":   "muon2_momentum",
-    "ytitle":   "Events",
-}
+#hists["muon2_p"] = {
+#    "output":   "muon2_p",
+#    "logy":     True,
+#    "stack":    True,
+#    "rebin":    1,
+#    "xmin":     0,
+#    "xmax":     150,
+#    "ymin":     1e-3,
+#    #"ymax":     1e6,
+ #   "xtitle":   "muon2_momentum",
+ #   "ytitle":   "Events",
+#}
