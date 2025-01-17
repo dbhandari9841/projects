@@ -5,37 +5,48 @@ ROOT.TH1.SetDefaultSumw2(ROOT.kTRUE)
 #okay, started out with our files, but the same old muon counter/plotter code, and it works. 
 #So this code parses out the data, does the counting business, injects to root files, 
 #the other code then reads the root files (hists basically) and plots them.
+#As with the Delphes code, this first code, with the FCCAnalyses function can count 
+#different particles in a single file
+#The plots_root.py code then can separately 
+
+
 
 # list of all guns
-processList = {
+processList = {                  #signal
     'wzp6_ee_nunuH_Hmumu_ecm240': {'fraction':1},
-    'wzp6_ee_nunuH_Hbb_ecm240': {'fraction':1},
-    'wzp6_ee_nunuH_Hss_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_Hbb_ecm240': {'fraction':1},  
+    'wzp6_ee_nunuH_Hss_ecm240': {'fraction':1},  #Z-->nunu,H-->mumu,qq
     'wzp6_ee_nunuH_Hcc_ecm240': {'fraction':1},
-    'wzp6_ee_eeH_Hmumu_ecm240': {'fraction':1},
-    'wzp6_ee_mumuH_Hmumu_ecm240': {'fraction':1},        #signal
-    'wzp6_ee_eeH_Hbb_ecm240': {'fraction':1},
-    'wzp6_ee_eeH_Hss_ecm240': {'fraction':1},
-    'wzp6_ee_eeH_Hcc_ecm240': {'fraction':1},
-    'wzp6_ee_mumuH_Hbb_ecm240': {'fraction':1},
-    'wzp6_ee_mumuH_Hss_ecm240': {'fraction':1},
-    'wzp6_ee_mumuH_Hcc_ecm240': {'fraction':1},
 
-    'wzp6_ee_nunuH_HWW_ecm240': {'fraction':1},
-    'wzp6_ee_nunuH_Haa_ecm240': {'fraction':1}, #background
-    'wzp6_ee_nunuH_Hgg_ecm240': {'fraction':1},
+    'wzp6_ee_eeH_Hmumu_ecm240': {'fraction':1},
+    'wzp6_ee_eeH_Hbb_ecm240': {'fraction':1},  
+    'wzp6_ee_eeH_Hss_ecm240': {'fraction':1},          #Z-->ee, H-->mumu,qq 
+    'wzp6_ee_eeH_Hcc_ecm240': {'fraction':1},
+                                                                   
+    'wzp6_ee_mumuH_Hmumu_ecm240': {'fraction':1},
+    'wzp6_ee_mumuH_Hbb_ecm240': {'fraction':1},
+    'wzp6_ee_mumuH_Hss_ecm240': {'fraction':1},     #Z-->mumu,H-->mumu,qq
+    'wzp6_ee_mumuH_Hcc_ecm240': {'fraction':1},
+   ###############################################################################
+                      #background
     'wzp6_ee_nunuH_HZZ_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_HWW_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_Haa_ecm240': {'fraction':1},     #Z-->nunu,H-->WW, ZZ, aa, Za, gg
     'wzp6_ee_nunuH_HZa_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_Hgg_ecm240': {'fraction':1},
+    
     'wzp6_ee_eeH_HZZ_ecm240': {'fraction':1},        
     'wzp6_ee_eeH_HWW_ecm240': {'fraction':1},
-    'wzp6_ee_eeH_Haa_ecm240': {'fraction':1},
+    'wzp6_ee_eeH_Haa_ecm240': {'fraction':1},       #Z-->ee,H-->WW, ZZ, aa, Za, gg
+    'wzp6_ee_eeH_HZa_ecm240': {'fraction':1},              
+    'wzp6_ee_eeH_Hgg_ecm240': {'fraction':1},
+
     'wzp6_ee_mumuH_HZZ_ecm240': {'fraction':1}, 
     'wzp6_ee_mumuH_HWW_ecm240': {'fraction':1},
-    'wzp6_ee_mumuH_Haa_ecm240':  {'fraction':1},
+    'wzp6_ee_mumuH_Haa_ecm240':  {'fraction':1},    #Z-->mumu,H-->WW, ZZ, aa, Za, gg
     'wzp6_ee_mumuH_HZa_ecm240': {'fraction':1},
-    'wzp6_ee_mumuH_Hgg_ecm240': {'fraction':1},
-    'wzp6_ee_eeH_Hgg_ecm240': {'fraction':1},
-    'wzp6_ee_eeH_HZa_ecm240': {'fraction':1}    
+    'wzp6_ee_mumuH_Hgg_ecm240': {'fraction':1}
+      
 }
 
 #if I understand this correctly, this code really doesn't care what's signal and what's background, it just plots everything. 
