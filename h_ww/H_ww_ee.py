@@ -2,7 +2,9 @@
 import ROOT
 ROOT.TH1.SetDefaultSumw2(ROOT.kTRUE)
 
-
+#okay, started out with our files, but the same old muon counter/plotter code, and it works. 
+#So this code parses out the data, does the counting business, injects to root files, 
+#the other code then reads the root files (hists basically) and plots them.
 
 # list of all guns
 processList = {
@@ -110,62 +112,62 @@ def build_graph(df, dataset):
 
     # Z(nunu) WW (mu nu mu nu)
     #df = df.Define("neutrinos", "FCCAnalyses::ReconstructedParticle::get_neutrinos(ReconstructedParticles)")
-    df = df.Define("muons", "FCCAnalyses::ReconstructedParticle::get_muons(ReconstructedParticles)")
-    df = df.Define("Z_nn_mass", "FCCAnalyses::invariant_mass(neutrinos)")
-    df = df.Define("WW_mumu_mass", "FCCAnalyses::invariant_mass(muons)")
+    #df = df.Define("muons", "FCCAnalyses::ReconstructedParticle::get_muons(ReconstructedParticles)")
+    #df = df.Define("Z_nn_mass", "FCCAnalyses::invariant_mass(neutrinos)")
+    #df = df.Define("WW_mumu_mass", "FCCAnalyses::invariant_mass(muons)")
 
-    hists.append(df.Histo1D(("Z_nn_mass", "Z(nunu) mass", 100, 0, 200), "Z_nn_mass"))
-    hists.append(df.Histo1D(("WW_mumu_mass", "WW(munumunu) mass", 100, 0, 200), "WW_mumu_mass"))
+    #hists.append(df.Histo1D(("Z_nn_mass", "Z(nunu) mass", 100, 0, 200), "Z_nn_mass"))
+    #hists.append(df.Histo1D(("WW_mumu_mass", "WW(munumunu) mass", 100, 0, 200), "WW_mumu_mass"))
 
     # Z (nunu) WW (bb)
-    df = df.Define("bottom", "FCCAnalyses::ReconstructedParticle::get_quarks(ReconstructedParticles)")
-    df = df.Define("WW_bb_mass", "FCCAnalyses::invariant_mass(bottom)")
+    #df = df.Define("bottom", "FCCAnalyses::ReconstructedParticle::get_quarks(ReconstructedParticles)")
+   # df = df.Define("WW_bb_mass", "FCCAnalyses::invariant_mass(bottom)")
 
-    hists.append(df.Histo1D(("WW_qq_mass", "WW(bb) mass", 100, 0, 200), "WW_qq_mass"))
+    #hists.append(df.Histo1D(("WW_qq_mass", "WW(bb) mass", 100, 0, 200), "WW_qq_mass"))
 
     # Z (nunu) WW (ss)
-    df = df.Define("strange", "FCCAnalyses::ReconstructedParticle::get_quarks(ReconstructedParticles)")
-    df = df.Define("WW_ss_mass", "FCCAnalyses::invariant_mass(strange)")
+    #df = df.Define("strange", "FCCAnalyses::ReconstructedParticle::get_quarks(ReconstructedParticles)")
+    #df = df.Define("WW_ss_mass", "FCCAnalyses::invariant_mass(strange)")
 
-    hists.append(df.Histo1D(("WW_qq_mass", "WW(ss) mass", 100, 0, 200), "WW_qq_mass"))
+    #hists.append(df.Histo1D(("WW_qq_mass", "WW(ss) mass", 100, 0, 200), "WW_qq_mass"))
 
     # Z (nunu) WW (cc)
-    df = df.Define("charm", "FCCAnalyses::ReconstructedParticle::get_quarks(ReconstructedParticles)")
-    df = df.Define("WW_cc_mass", "FCCAnalyses::invariant_mass(charm)")
+    #df = df.Define("charm", "FCCAnalyses::ReconstructedParticle::get_quarks(ReconstructedParticles)")
+    #df = df.Define("WW_cc_mass", "FCCAnalyses::invariant_mass(charm)")
 
-    hists.append(df.Histo1D(("WW_qq_mass", "WW(cc) mass", 100, 0, 200), "WW_qq_mass"))
+    #hists.append(df.Histo1D(("WW_qq_mass", "WW(cc) mass", 100, 0, 200), "WW_qq_mass"))
 
     # Z (e+e−) WW (munumunu)
-    df = df.Define("Z_mumu_mass", "FCCAnalyses::invariant_mass(muons)")
-    hists.append(df.Histo1D(("Z_mumu_mass", "Z(e+e−) mass", 100, 0, 200), "Z_mumu_mass"))
+    #df = df.Define("Z_mumu_mass", "FCCAnalyses::invariant_mass(muons)")
+    #hists.append(df.Histo1D(("Z_mumu_mass", "Z(e+e−) mass", 100, 0, 200), "Z_mumu_mass"))
 
     # Z (mumu) WW (munumunu)
-    df = df.Define("Z_mumu_mass", "FCCAnalyses::invariant_mass(muons)")
-    hists.append(df.Histo1D(("Z_mumu_mass", "Z(mumu) mass", 100, 0, 200), "Z_mumu_mass"))
+    #df = df.Define("Z_mumu_mass", "FCCAnalyses::invariant_mass(muons)")
+    #hists.append(df.Histo1D(("Z_mumu_mass", "Z(mumu) mass", 100, 0, 200), "Z_mumu_mass"))
 
     # Z (e+e−) WW (bb)
-    df = df.Define("WW_bb_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
-    hists.append(df.Histo1D(("WW_bb_mass", "WW(ee) mass", 100, 0, 200), "WW_bb_mass"))
+    #df = df.Define("WW_bb_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
+    #hists.append(df.Histo1D(("WW_bb_mass", "WW(ee) mass", 100, 0, 200), "WW_bb_mass"))
 
     # Z (e+e−) WW (ss)
-    df = df.Define("WW_ss_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
-    hists.append(df.Histo1D(("WW_ss_mass", "WW(ee) mass", 100, 0, 200), "WW_ss_mass"))
+    #df = df.Define("WW_ss_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
+    #hists.append(df.Histo1D(("WW_ss_mass", "WW(ee) mass", 100, 0, 200), "WW_ss_mass"))
 
     # Z (e+e−) WW (cc)
-    df = df.Define("WW_cc_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
-    hists.append(df.Histo1D(("WW_cc_mass", "WW(ee) mass", 100, 0, 200), "WW_cc_mass"))
+    #df = df.Define("WW_cc_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
+    #hists.append(df.Histo1D(("WW_cc_mass", "WW(ee) mass", 100, 0, 200), "WW_cc_mass"))
 
     # Z (mu+mu-) WW (bb)
-    df = df.Define("WW_bb_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
-    hists.append(df.Histo1D(("WW_bb_mass", "WW(mumu) mass", 100, 0, 200), "WW_bb_mass"))
+    #df = df.Define("WW_bb_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
+    #hists.append(df.Histo1D(("WW_bb_mass", "WW(mumu) mass", 100, 0, 200), "WW_bb_mass"))
 
     # Z (mu+mu-) WW (ss)
-    df = df.Define("WW_ss_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
-    hists.append(df.Histo1D(("WW_ss_mass", "WW(mumu) mass", 100, 0, 200), "WW_ss_mass"))
+    #df = df.Define("WW_ss_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
+    #hists.append(df.Histo1D(("WW_ss_mass", "WW(mumu) mass", 100, 0, 200), "WW_ss_mass"))
 
     # Z (mu+mu-) WW (cc)
-    df = df.Define("WW_cc_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
-    hists.append(df.Histo1D(("WW_cc_mass", "WW(mumu) mass", 100, 0, 200), "WW_cc_mass"))
+    #df = df.Define("WW_cc_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
+    #hists.append(df.Histo1D(("WW_cc_mass", "WW(mumu) mass", 100, 0, 200), "WW_cc_mass"))
     #########
     ### CUT 0: all events
     #########

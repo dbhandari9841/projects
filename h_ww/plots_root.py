@@ -16,10 +16,36 @@ plotStatUnc    = False
 
 
 procs = {}
-procs['signal'] = {'mumu':['wzp6_ee_mumu_ecm91p2']}
+procs['signal'] = {'nunuHmumu':['wzp6_ee_nunuH_Hmumu_ecm240'],
+                   'nunuHbb':['wzp6_ee_nunuH_Hbb_ecm240'],
+                   'nunuHss':['wzp6_ee_nunuH_Hss_ecm240'],
+                   'nunuHcc':['wzp6_ee_nunuH_Hcc_ecm240'],
+                   'eeHmumu':['wzp6_ee_eeH_Hmumu_ecm240'],
+                   'mumuHmumu':['wzp6_ee_mumuH_Hmumu_ecm240'],
+                   'eeHbb':['wzp6_ee_eeH_Hbb_ecm240'],
+                   'eeHss':['wzp6_ee_eeH_Hss_ecm240'],
+                   'eeHcc':['wzp6_ee_eeH_Hcc_ecm240'],
+                   'mumuHbb':['wzp6_ee_mumuH_Hbb_ecm240'],
+                   'mumuHss':['wzp6_ee_mumuH_Hss_ecm240'],
+                   'mumuHcc':['wzp6_ee_mumuH_Hcc_ecm240']
+                   }
+
 procs['backgrounds'] =  {
-    'gaga':['p8_ee_gaga_mumu_ecm91p2'],
-    'tautau':['wzp6_ee_tautau_ecm91p2'],
+    'nunuHWW':['wzp6_ee_nunuH_HWW_ecm240'],
+    'nunuHaa':['wzp6_ee_nunuH_Haa_ecm240'],
+    'nunuHgg':['wzp6_ee_nunuH_Hgg_ecm240'],
+    'nunuHZZ':['wzp6_ee_nunuH_HZZ_ecm240'],
+    'nunuHZa':['wzp6_ee_nunuH_HZa_ecm240'],
+    'eeHZZ':['wzp6_ee_eeH_HZZ_ecm240'],
+    'eeHWW':['wzp6_ee_eeH_HWW_ecm240'],
+    'eeHaa':['wzp6_ee_eeH_Haa_ecm240'],
+    'mumuHZZ':['wzp6_ee_mumuH_HZZ_ecm240'],
+    'mumuHWW':['wzp6_ee_mumuH_HWW_ecm240'],
+    'mumuHaa':['wzp6_ee_mumuH_Haa_ecm240'],
+    'mumuHZa':['wzp6_ee_mumuH_HZa_ecm240'],
+    'mumuHgg':['wzp6_ee_mumuH_Hgg_ecm240'],
+    'eeHgg':['wzp6_ee_eeH_Hgg_ecm240'],
+    'eeHZa':['wzp6_ee_eeH_HZa_ecm240']
     }
 
 
