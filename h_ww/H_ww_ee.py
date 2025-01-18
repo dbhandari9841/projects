@@ -254,7 +254,7 @@ def build_graph(df, dataset):
     #########
     df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
     df = df.Define("invariant_mass", "(leps_tlv[0] + leps_tlv[1]).M()") 
-    df = df.Filter("abs(invariant_mass - 91.2) > 10")
+    df = df.Filter("abs(invariant_mass - 91.2) < 10")
     df = df.Define("cut4", "4")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
 
