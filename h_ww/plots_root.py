@@ -27,9 +27,9 @@ procs['signal'] = {#'nunuHmumu':['wzp6_ee_nunuH_Hmumu_ecm240'],
                    #'eeHcc':['wzp6_ee_eeH_Hcc_ecm240'],
 
                    'mumuHmumu':['wzp6_ee_mumuH_Hmumu_ecm240'],
-                   'mumuHbb':['wzp6_ee_mumuH_Hbb_ecm240'],
-                   'mumuHss':['wzp6_ee_mumuH_Hss_ecm240'],      #Z-->mumu,H-->mumu,qq
-                   'mumuHcc':['wzp6_ee_mumuH_Hcc_ecm240']
+                   #'mumuHbb':['wzp6_ee_mumuH_Hbb_ecm240'],
+                   #'mumuHss':['wzp6_ee_mumuH_Hss_ecm240'],      #Z-->mumu,H-->mumu,qq
+                   #'mumuHcc':['wzp6_ee_mumuH_Hcc_ecm240']
                    }
 
 procs['backgrounds'] =  {
@@ -47,9 +47,9 @@ procs['backgrounds'] =  {
 
     'mumuHWW':['wzp6_ee_mumuH_HWW_ecm240'],
     'mumuHZZ':['wzp6_ee_mumuH_HZZ_ecm240'],
-    'mumuHaa':['wzp6_ee_mumuH_Haa_ecm240'], #Z-->mumu,H-->WW, ZZ, aa, Za, gg
+    #'mumuHaa':['wzp6_ee_mumuH_Haa_ecm240'], #Z-->mumu,H-->WW, ZZ, aa, Za, gg
     'mumuHZa':['wzp6_ee_mumuH_HZa_ecm240'],
-    'mumuHgg':['wzp6_ee_mumuH_Hgg_ecm240'],
+    #'mumuHgg':['wzp6_ee_mumuH_Hgg_ecm240'],
     }
 
 
@@ -65,9 +65,9 @@ colors = {}             #Signal
 #colors['eeHcc'] = ROOT.kYellow+3
 
 colors['mumuHmumu'] = ROOT.kRed    
-colors['mumuHbb'] = ROOT.kBlue+1
-colors['mumuHss'] = ROOT.kGreen+2
-colors['mumuHcc'] = ROOT.kYellow+3
+#colors['mumuHbb'] = ROOT.kBlue+1
+#colors['mumuHss'] = ROOT.kGreen+2
+#colors['mumuHcc'] = ROOT.kYellow+3
 
 
             #Background
@@ -86,8 +86,8 @@ colors['mumuHcc'] = ROOT.kYellow+3
 colors['mumuHWW'] = ROOT.kPink
 colors['mumuHZZ'] = ROOT.kMagenta+3
 colors['mumuHZa'] = ROOT.kOrange+4
-colors['mumuHaa'] = ROOT.kPink+2
-colors['mumuHgg'] = ROOT.kOrange+2
+#colors['mumuHaa'] = ROOT.kPink+2
+#colors['mumuHgg'] = ROOT.kOrange+2
 
 
 
@@ -100,10 +100,10 @@ legend = {}
 #legend['eeHbb'] = "e^{#plus}e^{#minus}H #rightarrow b#bar{b}"
 #legend['eeHss'] = "e^{#plus}e^{#minus}H #rightarrow s#bar{s}"
 #legend['eeHcc'] = "e^{#plus}e^{#minus}H #rightarrow c#bar{c}"
-legend['mumuHmumu'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}"
-legend['mumuHbb'] = "#mu^{#plus}#mu^{#minus}H #rightarrow b#bar{b}"
-legend['mumuHss'] = "#mu^{#plus}#mu^{#minus}H #rightarrow s#bar{s}"
-legend['mumuHcc'] = "#mu^{#plus}#mu^{#minus}H #rightarrow c#bar{c}"
+legend['mumuHmumu'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}#mu^{#plus}#mu^{#minus}"
+#legend['mumuHbb'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}b#bar{b}"
+#legend['mumuHss'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}s#bar{s}"
+#legend['mumuHcc'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}c#bar{c}"
 
 #legend['nunuHWW'] = "#nu #nu H #rightarrow WW"
 #legend['nunuHZZ'] = "#nu #nu H #rightarrow WW"
@@ -115,23 +115,23 @@ legend['mumuHcc'] = "#mu^{#plus}#mu^{#minus}H #rightarrow c#bar{c}"
 #legend['eeHaa'] = "e^{#plus}e^{#minus}H #rightarrow aa"
 #legend['eeHZa'] = "e^{#plus}e^{#minus}H #rightarrow Za"
 #legend['eeHgg'] = "e^{#plus}e^{#minus}H #rightarrow gg"
-legend['mumuHWW'] = "#mu^{#plus}#mu^{#minus}H #rightarrow WW"
-legend['mumuHZZ'] = "#mu^{#plus}#mu^{#minus}H #rightarrow ZZ"
-legend['mumuHaa'] = "#mu^{#plus}#mu^{#minus}H #rightarrow aa"
-legend['mumuHZa'] = "#mu^{#plus}#mu^{#minus}H #rightarrow Za"
-legend['mumuHgg'] = "#mu^{#plus}#mu^{#minus}H #rightarrow gg"
+legend['mumuHWW'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}WW"
+legend['mumuHZZ'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}ZZ"
+#legend['mumuHaa'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}aa"
+legend['mumuHZa'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}Za"
+#legend['mumuHgg'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}gg"
 
 hists = {}
 
 hists["cutFlow"] = {
     "output":   "cutFlow",
-    "logy":     True,
+    "logy":     False,
     "stack":    True,
     "xmin":     0,
     "xmax":     5,
     "ymin":     1e1,
     #"ymax":     1e11,
-    "xtitle":   ["All events", "#geq 1 #mu", "#geq 2 #mu^{#pm}", "2 OS #mu", "p_{#mu}^{max} > 0.6 p_{beam}"],
+    "xtitle":   ["All events", "#geq 1 #mu", "#geq 2 #mu^{#pm}", "2 OS #mu", "2OS, M_{#mu#mu}~M_{Z}"],
     "ytitle":   "Events ",
     "scaleSig": 1
 }
@@ -139,7 +139,7 @@ hists["cutFlow"] = {
 
 hists["muons_all_costheta"] = {
     "output":   "muons_all_costheta",
-    "logy":     True,
+    "logy":     False,
     "stack":    True,
     "rebin":    1,
     "xmin":     -1,
@@ -151,21 +151,21 @@ hists["muons_all_costheta"] = {
 }
 
 #hists["muon_max_p_norm"] = {
-#    "output":   "muon_max_p_norm",
-#    "logy":     True,
-#    "stack":    True,
-#    "rebin":    1,
-#    "xmin":     0,
-#    "xmax":     2,
-#    "ymin":     0.1,
-#    #"ymax":     1e8,
-#    "xtitle":   "p(#mu_{max})/E_{beam}",
-#    "ytitle":   "Events",
+ #   "output":   "muon_max_p_norm",
+  #  "logy":     True,
+  #  "stack":    True,
+  #  "rebin":    1,
+  #  "xmin":     0,
+  #  "xmax":     2,
+  #  "ymin":     0.1,
+  #  "ymax":     1e8,
+  #  "xtitle":   "p(#mu_{max})/E_{beam}",
+  #  "ytitle":   "Events",
 #}
 
 hists["acolinearity"] = {
     "output":   "acolinearity",
-    "logy":     True,
+    "logy":     False,
     "stack":    True,
     "rebin":    1,
     "xmin":     0,

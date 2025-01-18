@@ -24,9 +24,9 @@ processList = {                  #signal
     #'wzp6_ee_eeH_Hcc_ecm240': {'fraction':1},
                                                                    
     'wzp6_ee_mumuH_Hmumu_ecm240': {'fraction':1},
-    'wzp6_ee_mumuH_Hbb_ecm240': {'fraction':1},
-    'wzp6_ee_mumuH_Hss_ecm240': {'fraction':1},     #Z-->mumu,H-->mumu,qq
-    'wzp6_ee_mumuH_Hcc_ecm240': {'fraction':1},
+    #'wzp6_ee_mumuH_Hbb_ecm240': {'fraction':1},
+    #'wzp6_ee_mumuH_Hss_ecm240': {'fraction':1},     #Z-->mumu,H-->mumu,qq
+    #'wzp6_ee_mumuH_Hcc_ecm240': {'fraction':1},
    ###############################################################################
                       #background
     #'wzp6_ee_nunuH_HZZ_ecm240': {'fraction':1},
@@ -43,9 +43,9 @@ processList = {                  #signal
 
     'wzp6_ee_mumuH_HZZ_ecm240': {'fraction':1}, 
     'wzp6_ee_mumuH_HWW_ecm240': {'fraction':1},
-    'wzp6_ee_mumuH_Haa_ecm240':  {'fraction':1},    #Z-->mumu,H-->WW, ZZ, aa, Za, gg
+    #'wzp6_ee_mumuH_Haa_ecm240':  {'fraction':1},    #Z-->mumu,H-->WW, ZZ, aa, Za, gg
     'wzp6_ee_mumuH_HZa_ecm240': {'fraction':1},
-    'wzp6_ee_mumuH_Hgg_ecm240': {'fraction':1}
+    #'wzp6_ee_mumuH_Hgg_ecm240': {'fraction':1}
       
 }
 
@@ -112,7 +112,7 @@ def build_graph(df, dataset):
     df = df.Define("muons_all_phi", "FCCAnalyses::ReconstructedParticle::get_phi(muons_all)")
     df = df.Define("muons_all_q", "FCCAnalyses::ReconstructedParticle::get_charge(muons_all)")
     df = df.Define("muons_all_no", "FCCAnalyses::ReconstructedParticle::get_n(muons_all)")
-
+    df = df.Define("muons_all_mass", "FCCAnalyses::ReconstructedParticle::get_mass(muons_all)")
     # define cos(theta) of the muons
     hists.append(df.Histo1D(("muons_all_costheta", "", *bins_cos), "muons_all_costheta"))
     df = df.Define("muons", "FCCAnalyses::sel_range(0, 0.97, true)(muons_all, muons_all_costheta)")
@@ -120,6 +120,7 @@ def build_graph(df, dataset):
     df = df.Define("muons_theta", "FCCAnalyses::ReconstructedParticle::get_theta(muons)")
     df = df.Define("muons_no", "FCCAnalyses::ReconstructedParticle::get_n(muons)")
     df = df.Define("muons_q", "FCCAnalyses::ReconstructedParticle::get_charge(muons)")
+    df = df.Define("muons_m", "FCCAnalyses::ReconstructedParticle::get_mass(muons)")
 
      ##########################
      # Why need all the extra stuff? Just do bottom, strange, charm, that's all the signals we have.
@@ -214,6 +215,9 @@ def build_graph(df, dataset):
     #df = df.Define("charm", "FCCAnalyses::ReconstructedParticle::get_quarks(ReconstructedParticles)")
     #df = df.Define("WW_cc_mass", "FCCAnalyses::invariant_mass(charm)")
 
+
+    #Okay, cut flow is what shows what remains after each cut... makes sense now.
+
     #hists.append(df.Histo1D(("WW_qq_mass", "WW(cc) mass", 100, 0, 200), "WW_qq_mass"))
     #########
     ### CUT 0: all events
@@ -224,19 +228,18 @@ def build_graph(df, dataset):
     #########
     ### CUT 1: select at least 1 muon
     #########
-    #df = df.Filter("muons_no >= 1")
+    df = df.Filter("muons_no >= 1")
 
-    #df = df.Define("cut1", "1")
-    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut1"))
+    df = df.Define("cut1", "1")
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut1"))
 
     #########
     ### CUT 2: select at least 2 muons
     #########
-    #df = df.Filter("muons_no >= 2")
+    df = df.Filter("muons_no >= 2")
 
-    #df = df.Define("cut2", "2")
-    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut2"))
-
+    df = df.Define("cut2", "2")
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut2"))
 
     #########
     ### CUT 3: require exactly 2 opposite-sign muons
@@ -246,11 +249,21 @@ def build_graph(df, dataset):
     df = df.Define("cut3", "3")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
 
+   #########
+    ### CUT 4: require exactly 2 opposite-sign muons close to Z boson mass 
+    #########
+    df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
+    df = df.Define("invariant_mass", "(leps_tlv[0] + leps_tlv[1]).M()") 
+    df = df.Filter("abs(invariant_mass - 91.2) > 10")
+    df = df.Define("cut4", "4")
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
 
+#muons_no == 2 && (muons_q[0] + muons_q[1]) == 0 && 
     #########
     ### CUT 4: max normalized muon momentum > 0.6
     #########
     #df = df.Define("muon_max_p", "(muons_p[0] > muons_p[1]) ? muons_p[0] : muons_p[1]")
+    #if 0 > 1 then 0 else 1
     #df = df.Define("muon_max_p_norm", "muon_max_p/45.6")
     #hists.append(df.Histo1D(("muon_max_p_norm", "", *bins_norm), "muon_max_p_norm"))
     #df = df.Filter("muon_max_p_norm > 0.6")
@@ -265,8 +278,8 @@ def build_graph(df, dataset):
     hists.append(df.Histo1D(("acolinearity", "", *bins_aco), "acolinearity"))
 
     # plot invariant mass of both muons
-    df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
-    df = df.Define("invariant_mass", "(leps_tlv[0]+leps_tlv[1]).M()")
+    #df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
+    #df = df.Define("invariant_mass", "(leps_tlv[0]+leps_tlv[1]).M()")
     hists.append(df.Histo1D(("invariant_mass", "", *bins_m_ll), "invariant_mass"))
 
     # Plot invariant mass of bottom quark pairs
