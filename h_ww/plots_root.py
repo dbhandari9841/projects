@@ -16,15 +16,15 @@ plotStatUnc    = False
 
 
 procs = {}
-procs['signal'] = {'nunuHmumu':['wzp6_ee_nunuH_Hmumu_ecm240'],
-                   'nunuHbb':['wzp6_ee_nunuH_Hbb_ecm240'],
-                   'nunuHss':['wzp6_ee_nunuH_Hss_ecm240'],   #Z-->nunu,H-->mumu,qq
-                   'nunuHcc':['wzp6_ee_nunuH_Hcc_ecm240'],
+procs['signal'] = {#'nunuHmumu':['wzp6_ee_nunuH_Hmumu_ecm240'],
+                   #'nunuHbb':['wzp6_ee_nunuH_Hbb_ecm240'],
+                   #'nunuHss':['wzp6_ee_nunuH_Hss_ecm240'],   #Z-->nunu,H-->mumu,qq
+                   #'nunuHcc':['wzp6_ee_nunuH_Hcc_ecm240'],
 
-                   'eeHmumu':['wzp6_ee_eeH_Hmumu_ecm240'],
-                   'eeHbb':['wzp6_ee_eeH_Hbb_ecm240'],
-                   'eeHss':['wzp6_ee_eeH_Hss_ecm240'],         #Z-->ee,H-->mumu,qq
-                   'eeHcc':['wzp6_ee_eeH_Hcc_ecm240'],
+                   #'eeHmumu':['wzp6_ee_eeH_Hmumu_ecm240'],
+                   #'eeHbb':['wzp6_ee_eeH_Hbb_ecm240'],
+                   #'eeHss':['wzp6_ee_eeH_Hss_ecm240'],         #Z-->ee,H-->mumu,qq
+                   #'eeHcc':['wzp6_ee_eeH_Hcc_ecm240'],
 
                    'mumuHmumu':['wzp6_ee_mumuH_Hmumu_ecm240'],
                    'mumuHbb':['wzp6_ee_mumuH_Hbb_ecm240'],
@@ -33,17 +33,17 @@ procs['signal'] = {'nunuHmumu':['wzp6_ee_nunuH_Hmumu_ecm240'],
                    }
 
 procs['backgrounds'] =  {
-    'nunuHWW':['wzp6_ee_nunuH_HWW_ecm240'],
-    'nunuHZZ':['wzp6_ee_nunuH_HZZ_ecm240'],
-    'nunuHaa':['wzp6_ee_nunuH_Haa_ecm240'], #Z-->nunu,H-->WW, ZZ, aa, Za, gg
-    'nunuHZa':['wzp6_ee_nunuH_HZa_ecm240'],
-    'nunuHgg':['wzp6_ee_nunuH_Hgg_ecm240'],
+    #'nunuHWW':['wzp6_ee_nunuH_HWW_ecm240'],
+    #'nunuHZZ':['wzp6_ee_nunuH_HZZ_ecm240'],
+    #'nunuHaa':['wzp6_ee_nunuH_Haa_ecm240'], #Z-->nunu,H-->WW, ZZ, aa, Za, gg
+    #'nunuHZa':['wzp6_ee_nunuH_HZa_ecm240'],
+    #'nunuHgg':['wzp6_ee_nunuH_Hgg_ecm240'],
 
-    'eeHWW':['wzp6_ee_eeH_HWW_ecm240'],
-    'eeHZZ':['wzp6_ee_eeH_HZZ_ecm240'],
-    'eeHaa':['wzp6_ee_eeH_Haa_ecm240'],     #Z-->ee,H-->WW, ZZ, aa, Za, gg
-    'eeHZa':['wzp6_ee_eeH_HZa_ecm240'],
-    'eeHgg':['wzp6_ee_eeH_Hgg_ecm240'],
+    #'eeHWW':['wzp6_ee_eeH_HWW_ecm240'],
+    #'eeHZZ':['wzp6_ee_eeH_HZZ_ecm240'],
+    #'eeHaa':['wzp6_ee_eeH_Haa_ecm240'],     #Z-->ee,H-->WW, ZZ, aa, Za, gg
+    #'eeHZa':['wzp6_ee_eeH_HZa_ecm240'],
+    #'eeHgg':['wzp6_ee_eeH_Hgg_ecm240'],
 
     'mumuHWW':['wzp6_ee_mumuH_HWW_ecm240'],
     'mumuHZZ':['wzp6_ee_mumuH_HZZ_ecm240'],
@@ -54,67 +54,67 @@ procs['backgrounds'] =  {
 
 
 colors = {}             #Signal
-colors['nunuHmumu'] = ROOT.kRed  #Red because we were looking at it primarily, might need to adjust
-colors['nunuHbb'] = ROOT.kRed+1
-colors['nunuHss'] = ROOT.kRed+2
-colors['nunuHcc'] = ROOT.kRed+3
+#colors['nunuHmumu'] = ROOT.kRed  #Red because we were looking at it primarily, might need to adjust
+#colors['nunuHbb'] = ROOT.kRed+1
+#colors['nunuHss'] = ROOT.kRed+2
+#colors['nunuHcc'] = ROOT.kRed+3
 
-colors['eeHmumu'] = ROOT.kYellow
-colors['eeHbb'] = ROOT.kYellow+1
-colors['eeHss'] = ROOT.kYellow+2
-colors['eeHcc'] = ROOT.kYellow+3
+#colors['eeHmumu'] = ROOT.kYellow
+#colors['eeHbb'] = ROOT.kYellow+1
+#colors['eeHss'] = ROOT.kYellow+2
+#colors['eeHcc'] = ROOT.kYellow+3
 
-colors['mumuHmumu'] = ROOT.kBlue    
+colors['mumuHmumu'] = ROOT.kRed    
 colors['mumuHbb'] = ROOT.kBlue+1
-colors['mumuHss'] = ROOT.kBlue+2
-colors['mumuHcc'] = ROOT.kBlue+3
+colors['mumuHss'] = ROOT.kGreen+2
+colors['mumuHcc'] = ROOT.kYellow+3
 
 
             #Background
-colors['nunuHWW'] = ROOT.kPink
-colors['nunuHZZ'] = ROOT.kPink+3
-colors['nunuHZa'] = ROOT.kPink+4
-colors['nunuHaa'] = ROOT.kPink+1
-colors['nunuHgg'] = ROOT.kPink+2
+#colors['nunuHWW'] = ROOT.kPink
+#colors['nunuHZZ'] = ROOT.kPink+3
+#colors['nunuHZa'] = ROOT.kPink+4
+#colors['nunuHaa'] = ROOT.kPink+1
+#colors['nunuHgg'] = ROOT.kPink+2
 
-colors['eeHWW'] = ROOT.kMagenta
-colors['eeHZZ'] = ROOT.kMagenta+3
-colors['eeHZa'] = ROOT.kMagenta+4
-colors['eeHaa'] = ROOT.kMagenta+1
-colors['eeHgg'] = ROOT.kMagenta+2
+#colors['eeHWW'] = ROOT.kMagenta
+#colors['eeHZZ'] = ROOT.kMagenta+3
+#colors['eeHZa'] = ROOT.kMagenta+4
+#colors['eeHaa'] = ROOT.kMagenta+1
+#colors['eeHgg'] = ROOT.kMagenta+2
 
-colors['mumuHWW'] = ROOT.kOrange
-colors['mumuHZZ'] = ROOT.kOrange+3
+colors['mumuHWW'] = ROOT.kPink
+colors['mumuHZZ'] = ROOT.kMagenta+3
 colors['mumuHZa'] = ROOT.kOrange+4
-colors['mumuHaa'] = ROOT.kOrange+1
+colors['mumuHaa'] = ROOT.kPink+2
 colors['mumuHgg'] = ROOT.kOrange+2
 
 
 
 legend = {}
-legend['nunuHmumu'] = "#nu #nu H #rightarrow #mu^{#plus}#mu^{#minus}"
-legend['nunuHbb'] = "#nu #nu H #rightarrow b#bar{b}"
-legend['nunuHss'] = "#nu #nu H #rightarrow s#bar{s}"
-legend['nunuHcc'] = "#nu #nu H #rightarrow c#bar{c}"
-legend['eeHmumu'] = "e^{#plus}e^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}"
-legend['eeHbb'] = "e^{#plus}e^{#minus}H #rightarrow b#bar{b}"
-legend['eeHss'] = "e^{#plus}e^{#minus}H #rightarrow s#bar{s}"
-legend['eeHcc'] = "e^{#plus}e^{#minus}H #rightarrow c#bar{c}"
+#legend['nunuHmumu'] = "#nu #nu H #rightarrow #mu^{#plus}#mu^{#minus}"
+#legend['nunuHbb'] = "#nu #nu H #rightarrow b#bar{b}"
+#legend['nunuHss'] = "#nu #nu H #rightarrow s#bar{s}"
+#legend['nunuHcc'] = "#nu #nu H #rightarrow c#bar{c}"
+#legend['eeHmumu'] = "e^{#plus}e^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}"
+#legend['eeHbb'] = "e^{#plus}e^{#minus}H #rightarrow b#bar{b}"
+#legend['eeHss'] = "e^{#plus}e^{#minus}H #rightarrow s#bar{s}"
+#legend['eeHcc'] = "e^{#plus}e^{#minus}H #rightarrow c#bar{c}"
 legend['mumuHmumu'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}"
 legend['mumuHbb'] = "#mu^{#plus}#mu^{#minus}H #rightarrow b#bar{b}"
 legend['mumuHss'] = "#mu^{#plus}#mu^{#minus}H #rightarrow s#bar{s}"
 legend['mumuHcc'] = "#mu^{#plus}#mu^{#minus}H #rightarrow c#bar{c}"
 
-legend['nunuHWW'] = "#nu #nu H #rightarrow WW"
-legend['nunuHZZ'] = "#nu #nu H #rightarrow WW"
-legend['nunuHaa'] = "#nu #nu H #rightarrow aa"
-legend['nunuHZa'] = "#nu #nu H #rightarrow Za"
-legend['nunuHgg'] = "#nu #nu H #rightarrow gg"
-legend['eeHWW'] = "e^{#plus}e^{#minus}H #rightarrow WW"
-legend['eeHZZ'] = "e^{#plus}e^{#minus}H #rightarrow ZZ"
-legend['eeHaa'] = "e^{#plus}e^{#minus}H #rightarrow aa"
-legend['eeHZa'] = "e^{#plus}e^{#minus}H #rightarrow Za"
-legend['eeHgg'] = "e^{#plus}e^{#minus}H #rightarrow gg"
+#legend['nunuHWW'] = "#nu #nu H #rightarrow WW"
+#legend['nunuHZZ'] = "#nu #nu H #rightarrow WW"
+#legend['nunuHaa'] = "#nu #nu H #rightarrow aa"
+#legend['nunuHZa'] = "#nu #nu H #rightarrow Za"
+#legend['nunuHgg'] = "#nu #nu H #rightarrow gg"
+#legend['eeHWW'] = "e^{#plus}e^{#minus}H #rightarrow WW"
+#legend['eeHZZ'] = "e^{#plus}e^{#minus}H #rightarrow ZZ"
+#legend['eeHaa'] = "e^{#plus}e^{#minus}H #rightarrow aa"
+#legend['eeHZa'] = "e^{#plus}e^{#minus}H #rightarrow Za"
+#legend['eeHgg'] = "e^{#plus}e^{#minus}H #rightarrow gg"
 legend['mumuHWW'] = "#mu^{#plus}#mu^{#minus}H #rightarrow WW"
 legend['mumuHZZ'] = "#mu^{#plus}#mu^{#minus}H #rightarrow ZZ"
 legend['mumuHaa'] = "#mu^{#plus}#mu^{#minus}H #rightarrow aa"

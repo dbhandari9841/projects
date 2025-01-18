@@ -13,15 +13,15 @@ ROOT.TH1.SetDefaultSumw2(ROOT.kTRUE)
 
 # list of all guns
 processList = {                  #signal
-    'wzp6_ee_nunuH_Hmumu_ecm240': {'fraction':1},
-    'wzp6_ee_nunuH_Hbb_ecm240': {'fraction':1},  
-    'wzp6_ee_nunuH_Hss_ecm240': {'fraction':1},  #Z-->nunu,H-->mumu,qq
-    'wzp6_ee_nunuH_Hcc_ecm240': {'fraction':1},
+    #'wzp6_ee_nunuH_Hmumu_ecm240': {'fraction':1},
+    #'wzp6_ee_nunuH_Hbb_ecm240': {'fraction':1},  
+    #'wzp6_ee_nunuH_Hss_ecm240': {'fraction':1},  #Z-->nunu,H-->mumu,qq
+    #'wzp6_ee_nunuH_Hcc_ecm240': {'fraction':1},
 
-    'wzp6_ee_eeH_Hmumu_ecm240': {'fraction':1},
-    'wzp6_ee_eeH_Hbb_ecm240': {'fraction':1},  
-    'wzp6_ee_eeH_Hss_ecm240': {'fraction':1},          #Z-->ee, H-->mumu,qq 
-    'wzp6_ee_eeH_Hcc_ecm240': {'fraction':1},
+    #'wzp6_ee_eeH_Hmumu_ecm240': {'fraction':1},
+    #'wzp6_ee_eeH_Hbb_ecm240': {'fraction':1},  
+    #'wzp6_ee_eeH_Hss_ecm240': {'fraction':1},          #Z-->ee, H-->mumu,qq 
+    #'wzp6_ee_eeH_Hcc_ecm240': {'fraction':1},
                                                                    
     'wzp6_ee_mumuH_Hmumu_ecm240': {'fraction':1},
     'wzp6_ee_mumuH_Hbb_ecm240': {'fraction':1},
@@ -29,17 +29,17 @@ processList = {                  #signal
     'wzp6_ee_mumuH_Hcc_ecm240': {'fraction':1},
    ###############################################################################
                       #background
-    'wzp6_ee_nunuH_HZZ_ecm240': {'fraction':1},
-    'wzp6_ee_nunuH_HWW_ecm240': {'fraction':1},
-    'wzp6_ee_nunuH_Haa_ecm240': {'fraction':1},     #Z-->nunu,H-->WW, ZZ, aa, Za, gg
-    'wzp6_ee_nunuH_HZa_ecm240': {'fraction':1},
-    'wzp6_ee_nunuH_Hgg_ecm240': {'fraction':1},
+    #'wzp6_ee_nunuH_HZZ_ecm240': {'fraction':1},
+    #'wzp6_ee_nunuH_HWW_ecm240': {'fraction':1},
+    #'wzp6_ee_nunuH_Haa_ecm240': {'fraction':1},     #Z-->nunu,H-->WW, ZZ, aa, Za, gg
+    #'wzp6_ee_nunuH_HZa_ecm240': {'fraction':1},
+    #'wzp6_ee_nunuH_Hgg_ecm240': {'fraction':1},
     
-    'wzp6_ee_eeH_HZZ_ecm240': {'fraction':1},        
-    'wzp6_ee_eeH_HWW_ecm240': {'fraction':1},
-    'wzp6_ee_eeH_Haa_ecm240': {'fraction':1},       #Z-->ee,H-->WW, ZZ, aa, Za, gg
-    'wzp6_ee_eeH_HZa_ecm240': {'fraction':1},              
-    'wzp6_ee_eeH_Hgg_ecm240': {'fraction':1},
+    #'wzp6_ee_eeH_HZZ_ecm240': {'fraction':1},        
+    #'wzp6_ee_eeH_HWW_ecm240': {'fraction':1},
+    #'wzp6_ee_eeH_Haa_ecm240': {'fraction':1},       #Z-->ee,H-->WW, ZZ, aa, Za, gg
+    #'wzp6_ee_eeH_HZa_ecm240': {'fraction':1},              
+    #'wzp6_ee_eeH_Hgg_ecm240': {'fraction':1},
 
     'wzp6_ee_mumuH_HZZ_ecm240': {'fraction':1}, 
     'wzp6_ee_mumuH_HWW_ecm240': {'fraction':1},
@@ -124,70 +124,70 @@ def build_graph(df, dataset):
      ##########################
      # Why need all the extra stuff? Just do bottom, strange, charm, that's all the signals we have.
     #(bottom charm strange quarks) It's not function documentation, it's the indexing in the files
-    df = df.Alias("Particle0", "Particle#0.index")
-    df = df.Alias("Particle1", "Particle#1.index")
-    df = df.Alias("MCRecoAssociations0", "MCRecoAssociations#0.index")
-    df = df.Alias("MCRecoAssociations1", "MCRecoAssociations#1.index")
-    df = df.Alias("BottomQuarks", "Bottom#0.index") 
-    df = df.Alias("CharmQuarks", "Charm#0.index")   
+    #df = df.Alias("Particle0", "Particle#0.index")
+    #df = df.Alias("Particle1", "Particle#1.index")
+    #df = df.Alias("MCRecoAssociations0", "MCRecoAssociations#0.index")
+    #df = df.Alias("MCRecoAssociations1", "MCRecoAssociations#1.index")
+    #df = df.Alias("BottomQuarks", "Bottom#0.index") 
+    #df = df.Alias("CharmQuarks", "Charm#0.index")   
 
     # reconstructed bottom quarks and properties
-    df = df.Define("bottom_all", "FCCAnalyses::ReconstructedParticle::get(BottomQuarks, ReconstructedParticles)")
-    df = df.Define("bottom_all_p", "FCCAnalyses::ReconstructedParticle::get_p(bottom_all)")
-    df = df.Define("bottom_all_theta", "FCCAnalyses::ReconstructedParticle::get_theta(bottom_all)")
-    df = df.Define("bottom_all_costheta", "FCCAnalyses::get_costheta(bottom_all)")
-    df = df.Define("bottom_all_phi", "FCCAnalyses::ReconstructedParticle::get_phi(bottom_all)")
-    df = df.Define("bottom_all_q", "FCCAnalyses::ReconstructedParticle::get_charge(bottom_all)")
-    df = df.Define("bottom_all_no", "FCCAnalyses::ReconstructedParticle::get_n(bottom_all)")
+    #df = df.Define("bottom_all", "FCCAnalyses::ReconstructedParticle::get(BottomQuarks, ReconstructedParticles)")
+    #df = df.Define("bottom_all_p", "FCCAnalyses::ReconstructedParticle::get_p(bottom_all)")
+    #df = df.Define("bottom_all_theta", "FCCAnalyses::ReconstructedParticle::get_theta(bottom_all)")
+    #df = df.Define("bottom_all_costheta", "FCCAnalyses::get_costheta(bottom_all)")
+    #df = df.Define("bottom_all_phi", "FCCAnalyses::ReconstructedParticle::get_phi(bottom_all)")
+    #df = df.Define("bottom_all_q", "FCCAnalyses::ReconstructedParticle::get_charge(bottom_all)")
+    #df = df.Define("bottom_all_no", "FCCAnalyses::ReconstructedParticle::get_n(bottom_all)")
 
     #define cos(theta) for bottom quarks
-    hists.append(df.Histo1D(("bottom_all_costheta", "", *bins_cos), "bottom_all_costheta"))
-    df = df.Define("bottom_quarks", "FCCAnalyses::sel_range(0, 0.97, true)(bottom_all, bottom_all_costheta)")
-    df = df.Define("bottom_p", "FCCAnalyses::ReconstructedParticle::get_p(bottom_quarks)")
-    df = df.Define("bottom_theta", "FCCAnalyses::ReconstructedParticle::get_theta(bottom_quarks)")
-    df = df.Define("bottom_no", "FCCAnalyses::ReconstructedParticle::get_n(bottom_quarks)")
-    df = df.Define("bottom_q", "FCCAnalyses::ReconstructedParticle::get_charge(bottom_quarks)")
+    #hists.append(df.Histo1D(("bottom_all_costheta", "", *bins_cos), "bottom_all_costheta"))
+    #df = df.Define("bottom_quarks", "FCCAnalyses::sel_range(0, 0.97, true)(bottom_all, bottom_all_costheta)")
+    #df = df.Define("bottom_p", "FCCAnalyses::ReconstructedParticle::get_p(bottom_quarks)")
+    #df = df.Define("bottom_theta", "FCCAnalyses::ReconstructedParticle::get_theta(bottom_quarks)")
+    #df = df.Define("bottom_no", "FCCAnalyses::ReconstructedParticle::get_n(bottom_quarks)")
+    #df = df.Define("bottom_q", "FCCAnalyses::ReconstructedParticle::get_charge(bottom_quarks)")
 
     #reconstructed charm quarks and properties
-    df = df.Define("charm_all", "FCCAnalyses::ReconstructedParticle::get(CharmQuarks, ReconstructedParticles)")
-    df = df.Define("charm_all_p", "FCCAnalyses::ReconstructedParticle::get_p(charm_all)")
-    df = df.Define("charm_all_theta", "FCCAnalyses::ReconstructedParticle::get_theta(charm_all)")
-    df = df.Define("charm_all_costheta", "FCCAnalyses::get_costheta(charm_all)")
-    df = df.Define("charm_all_phi", "FCCAnalyses::ReconstructedParticle::get_phi(charm_all)")
-    df = df.Define("charm_all_q", "FCCAnalyses::ReconstructedParticle::get_charge(charm_all)")
-    df = df.Define("charm_all_no", "FCCAnalyses::ReconstructedParticle::get_n(charm_all)")
+    #df = df.Define("charm_all", "FCCAnalyses::ReconstructedParticle::get(CharmQuarks, ReconstructedParticles)")
+    #df = df.Define("charm_all_p", "FCCAnalyses::ReconstructedParticle::get_p(charm_all)")
+    #df = df.Define("charm_all_theta", "FCCAnalyses::ReconstructedParticle::get_theta(charm_all)")
+    #df = df.Define("charm_all_costheta", "FCCAnalyses::get_costheta(charm_all)")
+    #df = df.Define("charm_all_phi", "FCCAnalyses::ReconstructedParticle::get_phi(charm_all)")
+    #df = df.Define("charm_all_q", "FCCAnalyses::ReconstructedParticle::get_charge(charm_all)")
+    #df = df.Define("charm_all_no", "FCCAnalyses::ReconstructedParticle::get_n(charm_all)")
 
     #def cos(theta) for charm quarks
-    hists.append(df.Histo1D(("charm_all_costheta", "", *bins_cos), "charm_all_costheta"))
-    df = df.Define("charm_quarks", "FCCAnalyses::sel_range(0, 0.97, true)(charm_all, charm_all_costheta)")
-    df = df.Define("charm_p", "FCCAnalyses::ReconstructedParticle::get_p(charm_quarks)")
-    df = df.Define("charm_theta", "FCCAnalyses::ReconstructedParticle::get_theta(charm_quarks)")
-    df = df.Define("charm_no", "FCCAnalyses::ReconstructedParticle::get_n(charm_quarks)")
-    df = df.Define("charm_q", "FCCAnalyses::ReconstructedParticle::get_charge(charm_quarks)")
+    #hists.append(df.Histo1D(("charm_all_costheta", "", *bins_cos), "charm_all_costheta"))
+    #df = df.Define("charm_quarks", "FCCAnalyses::sel_range(0, 0.97, true)(charm_all, charm_all_costheta)")
+    #df = df.Define("charm_p", "FCCAnalyses::ReconstructedParticle::get_p(charm_quarks)")
+    #df = df.Define("charm_theta", "FCCAnalyses::ReconstructedParticle::get_theta(charm_quarks)")
+    #df = df.Define("charm_no", "FCCAnalyses::ReconstructedParticle::get_n(charm_quarks)")
+    #df = df.Define("charm_q", "FCCAnalyses::ReconstructedParticle::get_charge(charm_quarks)")
 
     #strange quarks)
-    df = df.Alias("Particle0", "Particle#0.index")
-    df = df.Alias("Particle1", "Particle#1.index")
-    df = df.Alias("MCRecoAssociations0", "MCRecoAssociations#0.index")
-    df = df.Alias("MCRecoAssociations1", "MCRecoAssociations#1.index")
-    df = df.Alias("StrangeQuarks", "Strange#0.index")  
+    #df = df.Alias("Particle0", "Particle#0.index")
+    #df = df.Alias("Particle1", "Particle#1.index")
+    #df = df.Alias("MCRecoAssociations0", "MCRecoAssociations#0.index")
+    #df = df.Alias("MCRecoAssociations1", "MCRecoAssociations#1.index")
+    #df = df.Alias("StrangeQuarks", "Strange#0.index")  
 
 #rconstructed strange quarks and their properties
-    df = df.Define("strange_all", "FCCAnalyses::ReconstructedParticle::get(StrangeQuarks, ReconstructedParticles)")
-    df = df.Define("strange_all_p", "FCCAnalyses::ReconstructedParticle::get_p(strange_all)")
-    df = df.Define("strange_all_theta", "FCCAnalyses::ReconstructedParticle::get_theta(strange_all)")
-    df = df.Define("strange_all_costheta", "FCCAnalyses::get_costheta(strange_all)")
-    df = df.Define("strange_all_phi", "FCCAnalyses::ReconstructedParticle::get_phi(strange_all)")
-    df = df.Define("strange_all_q", "FCCAnalyses::ReconstructedParticle::get_charge(strange_all)")
-    df = df.Define("strange_all_no", "FCCAnalyses::ReconstructedParticle::get_n(strange_all)")
+    #df = df.Define("strange_all", "FCCAnalyses::ReconstructedParticle::get(StrangeQuarks, ReconstructedParticles)")
+    #df = df.Define("strange_all_p", "FCCAnalyses::ReconstructedParticle::get_p(strange_all)")
+    #df = df.Define("strange_all_theta", "FCCAnalyses::ReconstructedParticle::get_theta(strange_all)")
+    #df = df.Define("strange_all_costheta", "FCCAnalyses::get_costheta(strange_all)")
+    #df = df.Define("strange_all_phi", "FCCAnalyses::ReconstructedParticle::get_phi(strange_all)")
+    #df = df.Define("strange_all_q", "FCCAnalyses::ReconstructedParticle::get_charge(strange_all)")
+    #df = df.Define("strange_all_no", "FCCAnalyses::ReconstructedParticle::get_n(strange_all)")
 
         #define cos(theta) for strange quarks
-    hists.append(df.Histo1D(("strange_all_costheta", "", *bins_cos), "strange_all_costheta"))
-    df = df.Define("strange_quarks", "FCCAnalyses::sel_range(0, 0.97, true)(strange_all, strange_all_costheta)")
-    df = df.Define("strange_p", "FCCAnalyses::ReconstructedParticle::get_p(strange_quarks)")
-    df = df.Define("strange_theta", "FCCAnalyses::ReconstructedParticle::get_theta(strange_quarks)")
-    df = df.Define("strange_no", "FCCAnalyses::ReconstructedParticle::get_n(strange_quarks)")
-    df = df.Define("strange_q", "FCCAnalyses::ReconstructedParticle::get_charge(strange_quarks)")
+    #hists.append(df.Histo1D(("strange_all_costheta", "", *bins_cos), "strange_all_costheta"))
+    #df = df.Define("strange_quarks", "FCCAnalyses::sel_range(0, 0.97, true)(strange_all, strange_all_costheta)")
+    #df = df.Define("strange_p", "FCCAnalyses::ReconstructedParticle::get_p(strange_quarks)")
+    #df = df.Define("strange_theta", "FCCAnalyses::ReconstructedParticle::get_theta(strange_quarks)")
+    #df = df.Define("strange_no", "FCCAnalyses::ReconstructedParticle::get_n(strange_quarks)")
+    #df = df.Define("strange_q", "FCCAnalyses::ReconstructedParticle::get_charge(strange_quarks)")
 
     # Z(nunu) WW (mu nu mu nu)
     #df = df.Define("neutrinos", "FCCAnalyses::ReconstructedParticle::get_neutrinos(ReconstructedParticles)")
@@ -215,38 +215,6 @@ def build_graph(df, dataset):
     #df = df.Define("WW_cc_mass", "FCCAnalyses::invariant_mass(charm)")
 
     #hists.append(df.Histo1D(("WW_qq_mass", "WW(cc) mass", 100, 0, 200), "WW_qq_mass"))
-
-    # Z (e+e−) WW (munumunu)
-    #df = df.Define("Z_mumu_mass", "FCCAnalyses::invariant_mass(muons)")
-    #hists.append(df.Histo1D(("Z_mumu_mass", "Z(e+e−) mass", 100, 0, 200), "Z_mumu_mass"))
-
-    # Z (mumu) WW (munumunu)
-    #df = df.Define("Z_mumu_mass", "FCCAnalyses::invariant_mass(muons)")
-    #hists.append(df.Histo1D(("Z_mumu_mass", "Z(mumu) mass", 100, 0, 200), "Z_mumu_mass"))
-
-    # Z (e+e−) WW (bb)
-    #df = df.Define("WW_bb_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
-    #hists.append(df.Histo1D(("WW_bb_mass", "WW(ee) mass", 100, 0, 200), "WW_bb_mass"))
-
-    # Z (e+e−) WW (ss)
-    #df = df.Define("WW_ss_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
-    #hists.append(df.Histo1D(("WW_ss_mass", "WW(ee) mass", 100, 0, 200), "WW_ss_mass"))
-
-    # Z (e+e−) WW (cc)
-    #df = df.Define("WW_cc_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
-    #hists.append(df.Histo1D(("WW_cc_mass", "WW(ee) mass", 100, 0, 200), "WW_cc_mass"))
-
-    # Z (mu+mu-) WW (bb)
-    #df = df.Define("WW_bb_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
-    #hists.append(df.Histo1D(("WW_bb_mass", "WW(mumu) mass", 100, 0, 200), "WW_bb_mass"))
-
-    # Z (mu+mu-) WW (ss)
-    #df = df.Define("WW_ss_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
-    #hists.append(df.Histo1D(("WW_ss_mass", "WW(mumu) mass", 100, 0, 200), "WW_ss_mass"))
-
-    # Z (mu+mu-) WW (cc)
-    #df = df.Define("WW_cc_mass", "FCCAnalyses::invariant_mass(leptons, quarks)")
-    #hists.append(df.Histo1D(("WW_cc_mass", "WW(mumu) mass", 100, 0, 200), "WW_cc_mass"))
     #########
     ### CUT 0: all events
     #########
@@ -302,14 +270,14 @@ def build_graph(df, dataset):
     hists.append(df.Histo1D(("invariant_mass", "", *bins_m_ll), "invariant_mass"))
 
     # Plot invariant mass of bottom quark pairs
-    df = df.Define("bottoms_tlv", "FCCAnalyses::makeLorentzVectors(bottoms)")
-    df = df.Define("bottom_invariant_mass", "(bottoms_tlv[0] + bottoms_tlv[1]).M()")
-    hists.append(df.Histo1D(("bottom_invariant_mass", "", *bins_m_ll), "bottom_invariant_mass"))
+    #df = df.Define("bottoms_tlv", "FCCAnalyses::makeLorentzVectors(bottoms)")
+    #df = df.Define("bottom_invariant_mass", "(bottoms_tlv[0] + bottoms_tlv[1]).M()")
+    #hists.append(df.Histo1D(("bottom_invariant_mass", "", *bins_m_ll), "bottom_invariant_mass"))
 
     # Plot invariant mass of charm quark pairs
-    df = df.Define("charms_tlv", "FCCAnalyses::makeLorentzVectors(charms)")
-    df = df.Define("charm_invariant_mass", "(charms_tlv[0] + charms_tlv[1]).M()")
-    hists.append(df.Histo1D(("charm_invariant_mass", "", *bins_m_ll), "charm_invariant_mass"))
+    #df = df.Define("charms_tlv", "FCCAnalyses::makeLorentzVectors(charms)")
+    #df = df.Define("charm_invariant_mass", "(charms_tlv[0] + charms_tlv[1]).M()")
+    #hists.append(df.Histo1D(("charm_invariant_mass", "", *bins_m_ll), "charm_invariant_mass"))
 
 
 
