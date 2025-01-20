@@ -259,16 +259,17 @@ def build_graph(df, dataset):
     df = df.Define("cut4", "4")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
 
-    #########  THIS CUT AINT WORKIN'
+    ######### NOT REALLY FUNCTIONING
+    # ####### PROBABLY BECAUSE WE'VE ALREADY FILTERED OUT THE MUONS
     ### CUT 5:getting rid of events with the additional high-momentum leptons to suppress WW, qqqq gone
     #########
-    df = df.Define("additional_muons", "FCCAnalyses::ReconstructedParticle::remove(muons_all, muons)")  #excluding muons selected so far
-    df = df.Define("additional_muons_p", "FCCAnalyses::ReconstructedParticle::get_p(additional_muons)")  #remaining ones' momentum
-    df = df.Filter("Sum(additional_muons_p) <= 6.0")  # events with additional high-pT muons (need to adjust)
-    df = df.Define("cut5", "5")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut5"))
+    #df = df.Define("additional_muons", "FCCAnalyses::ReconstructedParticle::remove(muons_all, muons)")  #excluding muons selected so far
+    #df = df.Define("additional_muons_p", "FCCAnalyses::ReconstructedParticle::get_p(additional_muons)")  #remaining ones' momentum
+    #df = df.Filter("Sum(additional_muons_p) <= 6.0")  # events with additional high-pT muons (need to adjust)
+    #df = df.Define("cut5", "5")
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut5"))
 
-    #########
+    ######### WORKS BUT BRINGS DOWN SIGNAL ALONG WITH THE BACKGROUND
     ### CUT 6:  looking at Zγ events, counting photon #s, removing events with energetic photons
     ######### #this works but brings down the signal line together with the background
     #photon alias
@@ -280,16 +281,25 @@ def build_graph(df, dataset):
     df = df.Define("cut6", "6")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut6"))
 
-    #########
+    ######### SEEMS TO BE WORKING BUT BRINGS DOWN SIGNAL ALONG WITH THE BACKGROUND
     ### CUT 7:supressing WW background by requiring missing energy consistent with neutrinos
     ######### remember, the cut means only keep events that have this...
-    df = df.Alias("MissingETs", "MissingET#0.index") 
-    df = df.Define("missingETs", "FCCAnalyses::ReconstructedParticle::get(MissingETs, MissingET)") #get the missing energy
-    df = df.Define("missingETs_E", "FCCAnalyses::ReconstructedParticle::get_e(missingETs)")
-    df = df.Filter("missingETs_E > 20.0 && missingETs_E < 50.0")
-    df = df.Define("cut_miss_e", "7") 
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut_miss_e"))
-    
+    df = df.Alias("MissingETs", "MissingET")
+    df = df.Define("missingET_E", "Sum(MissingET.energy)") 
+    df = df.Filter("missingET_E > 20.0 && missingET_E < 50.0")   
+    df = df.Define("cut7", "7") 
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut7"))
+
+
+    ######### WORKS BUT NOT DOING ANYTHING
+    ### CUT 8:Jets, cutting out a lot of jets
+    ######### remember, the cut means only keep events that have this...
+    #maybe jets are like MissingET here, fix that.
+    df = df.Alias("Jets", "Jet")
+    df = df.Define("n_jets",  "Jets.size()")
+    df = df.Filter("n_jets <2 || (2<= n_jets < 4)")
+    df = df.Define("cut8", "8") 
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut8"))
 
     #########
     ### CUT : Cutting down the WW background's, looking at the missing transverse energy 

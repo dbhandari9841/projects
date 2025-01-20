@@ -131,8 +131,8 @@ hists["cutFlow"] = {
     "xmax":     5,
     "ymin":     1e1,
     #"ymax":     1e11,
-    "xtitle":   ["All events", "#geq 1 #mu", "#geq 2 #mu^{#pm}", "2 OS #mu", "2OS, M_{#mu#mu}~M_{Z}",
-                 "WWZZ lep","Z#gamma", "#nu"], 
+    "xtitle":   ["All events", "#geq 1 #mu", "#geq 2 #mu^{#pm}", "2 OS #mu", "2OS, M_{#mu#mu}~M_{Z}"
+                 ,"#gamma", "#nu", "MET", "lowJets"], 
     "ytitle":   "Events ",
     "scaleSig": 1
 }
