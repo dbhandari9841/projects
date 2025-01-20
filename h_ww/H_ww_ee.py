@@ -98,7 +98,7 @@ def build_graph(df, dataset):
     #Here, only muons, need to add the relevant particles for the four different outcome states
     #we are focusing on...
     df = df.Alias("Particle0", "Particle#0.index")
-    df = df.Alias("Particle1", "Particle#1.index")
+    df = df.Alias("Particle1", "Particle#1.index")  #these why are these even here? unnecessary
     df = df.Alias("MCRecoAssociations0", "MCRecoAssociations#0.index")
     df = df.Alias("MCRecoAssociations1", "MCRecoAssociations#1.index")
     df = df.Alias("Muons", "Muon#0.index")
@@ -259,37 +259,37 @@ def build_graph(df, dataset):
     df = df.Define("cut4", "4")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
 
-    #########
-    ### CUT 5:getting rid of events with the additional high-momentum leptons to suppress WW and ZZ backgrounds
+    #########  THIS CUT AINT WORKIN'
+    ### CUT 5:getting rid of events with the additional high-momentum leptons to suppress WW, qqqq gone
     #########
     df = df.Define("additional_muons", "FCCAnalyses::ReconstructedParticle::remove(muons_all, muons)")  #excluding muons selected so far
     df = df.Define("additional_muons_p", "FCCAnalyses::ReconstructedParticle::get_p(additional_muons)")  #remaining ones' momentum
-    df = df.Filter("Sum(additional_muons_p > 10.0) == 0")  # events with additional high-pT muons (need to adjust)
+    df = df.Filter("Sum(additional_muons_p) <= 6.0")  # events with additional high-pT muons (need to adjust)
     df = df.Define("cut5", "5")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut5"))
 
     #########
     ### CUT 6:  looking at Zγ events, counting photon #s, removing events with energetic photons
-    #########
+    ######### #this works but brings down the signal line together with the background
     #photon alias
     df = df.Alias("Photons", "Photon#0.index")
     df = df.Define("photons", "FCCAnalyses::ReconstructedParticle::get(Photons, ReconstructedParticles)") #photon object, get transverse momentum
     df = df.Define("photons_pT", "FCCAnalyses::ReconstructedParticle::get_pt(photons)")
     df = df.Define("n_photons", "FCCAnalyses::ReconstructedParticle::get_n(photons)") #getn
-    df = df.Filter("n_photons == 0 || Max(photons_pT) < 10") #requiring no photons or photons with pT < 10 GeV
+    df = df.Filter("n_photons == 0 || Max(photons_pT) < 4") #requiring no photons or photons with pT < 4GeV
     df = df.Define("cut6", "6")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut6"))
 
     #########
     ### CUT 7:supressing WW background by requiring missing energy consistent with neutrinos
-    #########
-    # Calculate the sum of reconstructed particle energies
-    df = df.Define("reco_particle_energies", "FCCAnalyses::ReconstructedParticle::get_e(ReconstructedParticles)")
-    df = df.Define("sum_reco_energy", "Sum(reco_particle_energies)")
-    df = df.Define("miss_e", f"{240.0} - sum_reco_energy") #calculating missing energy
-    df = df.Filter("miss_e > 10.0")  #this 10 is just a test value, need to adjust
-    df = df.Define("cut_miss_e", "7")
+    ######### remember, the cut means only keep events that have this...
+    df = df.Alias("MissingETs", "MissingET#0.index") 
+    df = df.Define("missingETs", "FCCAnalyses::ReconstructedParticle::get(MissingETs, MissingET)") #get the missing energy
+    df = df.Define("missingETs_E", "FCCAnalyses::ReconstructedParticle::get_e(missingETs)")
+    df = df.Filter("missingETs_E > 20.0 && missingETs_E < 50.0")
+    df = df.Define("cut_miss_e", "7") 
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut_miss_e"))
+    
 
     #########
     ### CUT : Cutting down the WW background's, looking at the missing transverse energy 
