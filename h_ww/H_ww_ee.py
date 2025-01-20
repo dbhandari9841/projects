@@ -13,7 +13,7 @@ ROOT.TH1.SetDefaultSumw2(ROOT.kTRUE)
 
 # list of all guns
 processList = {                  #signal
-    #'wzp6_ee_nunuH_Hmumu_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_Hmumu_ecm240': {'fraction':1},
     #'wzp6_ee_nunuH_Hbb_ecm240': {'fraction':1},  
     #'wzp6_ee_nunuH_Hss_ecm240': {'fraction':1},  #Z-->nunu,H-->mumu,qq
     #'wzp6_ee_nunuH_Hcc_ecm240': {'fraction':1},
@@ -23,16 +23,16 @@ processList = {                  #signal
     #'wzp6_ee_eeH_Hss_ecm240': {'fraction':1},          #Z-->ee, H-->mumu,qq 
     #'wzp6_ee_eeH_Hcc_ecm240': {'fraction':1},
                                                                    
-    'wzp6_ee_mumuH_Hmumu_ecm240': {'fraction':1},
+    #'wzp6_ee_mumuH_Hmumu_ecm240': {'fraction':1},
     #'wzp6_ee_mumuH_Hbb_ecm240': {'fraction':1},
     #'wzp6_ee_mumuH_Hss_ecm240': {'fraction':1},     #Z-->mumu,H-->mumu,qq
     #'wzp6_ee_mumuH_Hcc_ecm240': {'fraction':1},
    ###############################################################################
                       #background
-    #'wzp6_ee_nunuH_HZZ_ecm240': {'fraction':1},
-    #'wzp6_ee_nunuH_HWW_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_HZZ_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_HWW_ecm240': {'fraction':1},
     #'wzp6_ee_nunuH_Haa_ecm240': {'fraction':1},     #Z-->nunu,H-->WW, ZZ, aa, Za, gg
-    #'wzp6_ee_nunuH_HZa_ecm240': {'fraction':1},
+    'wzp6_ee_nunuH_HZa_ecm240': {'fraction':1},
     #'wzp6_ee_nunuH_Hgg_ecm240': {'fraction':1},
     
     #'wzp6_ee_eeH_HZZ_ecm240': {'fraction':1},        
@@ -41,10 +41,10 @@ processList = {                  #signal
     #'wzp6_ee_eeH_HZa_ecm240': {'fraction':1},              
     #'wzp6_ee_eeH_Hgg_ecm240': {'fraction':1},
 
-    'wzp6_ee_mumuH_HZZ_ecm240': {'fraction':1}, 
-    'wzp6_ee_mumuH_HWW_ecm240': {'fraction':1},
+    #'wzp6_ee_mumuH_HZZ_ecm240': {'fraction':1}, 
+    #'wzp6_ee_mumuH_HWW_ecm240': {'fraction':1},
     #'wzp6_ee_mumuH_Haa_ecm240':  {'fraction':1},    #Z-->mumu,H-->WW, ZZ, aa, Za, gg
-    'wzp6_ee_mumuH_HZa_ecm240': {'fraction':1},
+    #'wzp6_ee_mumuH_HZa_ecm240': {'fraction':1},
     #'wzp6_ee_mumuH_Hgg_ecm240': {'fraction':1}
       
 }
@@ -226,38 +226,30 @@ def build_graph(df, dataset):
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut0"))
 
     #########
-    ### CUT 1: select at least 1 muon
+    ### CUT 1: select at least 2 muons
     #########
-    df = df.Filter("muons_no >= 1")
+    df = df.Filter("muons_no >= 2")
 
     df = df.Define("cut1", "1")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut1"))
 
     #########
-    ### CUT 2: select at least 2 muons
-    #########
-    df = df.Filter("muons_no >= 2")
-
-    df = df.Define("cut2", "2")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut2"))
-
-    #########
-    ### CUT 3: require exactly 2 opposite-sign muons, this already is a good cut 
+    ### CUT 2: require exactly 2 opposite-sign muons, this already is a good cut 
                 #to separate out the 4 leptons that come from ZZ->4l
     #########
     df = df.Filter("muons_no == 2 && (muons_q[0] + muons_q[1]) == 0")
 
-    df = df.Define("cut3", "3")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
+    df = df.Define("cut2", "2")
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut2"))
 
    #########
-    ### CUT 4: require exactly 2 opposite-sign muons close to Z boson mass 
+    ### CUT 3: require opposite-sign muons close to Z boson mass 
     #########
     df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
     df = df.Define("invariant_mass", "(leps_tlv[0] + leps_tlv[1]).M()") 
     df = df.Filter("abs(invariant_mass - 91.2) < 10")
-    df = df.Define("cut4", "4")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
+    df = df.Define("cut3", "3")
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
 
     ######### NOT REALLY FUNCTIONING
     # ####### PROBABLY BECAUSE WE'VE ALREADY FILTERED OUT THE MUONS
@@ -275,31 +267,31 @@ def build_graph(df, dataset):
     #photon alias
     df = df.Alias("Photons", "Photon#0.index")
     df = df.Define("photons", "FCCAnalyses::ReconstructedParticle::get(Photons, ReconstructedParticles)") #photon object, get transverse momentum
-    df = df.Define("photons_pT", "FCCAnalyses::ReconstructedParticle::get_pt(photons)")
-    df = df.Define("n_photons", "FCCAnalyses::ReconstructedParticle::get_n(photons)") #getn
-    df = df.Filter("n_photons == 0 || Max(photons_pT) < 4") #requiring no photons or photons with pT < 4GeV
-    df = df.Define("cut6", "6")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut6"))
+    #df = df.Define("photons_e", "FCCAnalyses::ReconstructedParticle::get_e(photons)")
+    #df = df.Define("n_photons", "FCCAnalyses::ReconstructedParticle::get_n(photons)") #getn
+    #df = df.Filter("n_photons == 0 || Max(photons_e) > 4") #requiring no photons or photons with pT < 4GeV
+    #df = df.Define("cut6", "6")
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut6"))
 
-    ######### SEEMS TO BE WORKING BUT BRINGS DOWN SIGNAL ALONG WITH THE BACKGROUND
+    ######### SEEMS TO BE WORKING BUT BRINGS DOWN SIGNAL ALONG WITH THE BACKGROUND 
     ### CUT 7:supressing WW background by requiring missing energy consistent with neutrinos
     ######### remember, the cut means only keep events that have this...
-    df = df.Alias("MissingETs", "MissingET")
-    df = df.Define("missingET_E", "Sum(MissingET.energy)") 
-    df = df.Filter("missingET_E > 20.0 && missingET_E < 50.0")   
-    df = df.Define("cut7", "7") 
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut7"))
+    #df = df.Alias("MissingETs", "MissingET")
+    #df = df.Define("missingET_E", "Sum(MissingET.energy)") 
+    #df = df.Filter("missingET_E > 20.0 && missingET_E < 50.0")   
+    #df = df.Define("cut7", "7") 
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut7"))
 
 
     ######### WORKS BUT NOT DOING ANYTHING
     ### CUT 8:Jets, cutting out a lot of jets
     ######### remember, the cut means only keep events that have this...
     #maybe jets are like MissingET here, fix that.
-    df = df.Alias("Jets", "Jet")
-    df = df.Define("n_jets",  "Jets.size()")
-    df = df.Filter("n_jets <2 || (2<= n_jets < 4)")
-    df = df.Define("cut8", "8") 
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut8"))
+    #df = df.Alias("Jets", "Jet")
+    #df = df.Define("n_jets",  "Jets.size()")
+    #df = df.Filter("n_jets <2 || (2<= n_jets < 4)")
+    #df = df.Define("cut8", "8") 
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut8"))
 
     #########
     ### CUT : Cutting down the WW background's, looking at the missing transverse energy 
@@ -335,6 +327,17 @@ def build_graph(df, dataset):
     #df = df.Define("invariant_mass", "(leps_tlv[0]+leps_tlv[1]).M()")
     hists.append(df.Histo1D(("invariant_mass", "", *bins_m_ll), "invariant_mass"))
 
+    #plot the missing transverse energy distribution
+    df = df.Alias("MissingETs", "MissingET")
+    df = df.Define("missingET_E", "Sum(MissingET.energy)")
+    hists.append(df.Histo1D(("MissingET_dist", "", *bins_count), "missingET_E"))
+
+    #plot the muon momentum
+    hists.append(df.Histo1D(("muon_p_dist", "", *bins_count), "muons_p"))
+
+    #LATER PLOT THE ELECTRON MOMENTUM DISTRIBUTION
+
+
     # Plot invariant mass of bottom quark pairs
     #df = df.Define("bottoms_tlv", "FCCAnalyses::makeLorentzVectors(bottoms)")
     #df = df.Define("bottom_invariant_mass", "(bottoms_tlv[0] + bottoms_tlv[1]).M()")
@@ -345,6 +348,14 @@ def build_graph(df, dataset):
     #df = df.Define("charm_invariant_mass", "(charms_tlv[0] + charms_tlv[1]).M()")
     #hists.append(df.Histo1D(("charm_invariant_mass", "", *bins_m_ll), "charm_invariant_mass"))
 
+    #Plotting Energy Distributions of the Photons #perhaps move these to before the cuts
+    df = df.Define("photon_energy", "FCCAnalyses::ReconstructedParticle::get_e(photons)")
+    hists.append(df.Histo1D(("photon_energy", "", *bins_count), "photon_energy"))
 
+    #Plotting number dist of the Photons
+    df = df.Define("photon_num", "FCCAnalyses::ReconstructedParticle::get_n(photons)")
+    hists.append(df.Histo1D(("photon_num", "", *bins_count), "photon_num"))
+
+    #Plotting missing energy dist
 
     return hists, weightsum
