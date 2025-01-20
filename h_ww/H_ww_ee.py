@@ -243,11 +243,11 @@ def build_graph(df, dataset):
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut2"))
 
    #########
-    ### CUT 3: require opposite-sign muons close to Z boson mass 
+    ### CUT 3: require opposite-sign muons close to Z boson mass, (this is only to study Z peak) 
     #########
     df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
     df = df.Define("invariant_mass", "(leps_tlv[0] + leps_tlv[1]).M()") 
-    df = df.Filter("abs(invariant_mass - 91.2) < 10")
+    #df = df.Filter("abs(invariant_mass - 91.2) < 10")
     df = df.Define("cut3", "3")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
 
@@ -274,13 +274,13 @@ def build_graph(df, dataset):
     #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut6"))
 
     ######### SEEMS TO BE WORKING BUT BRINGS DOWN SIGNAL ALONG WITH THE BACKGROUND 
-    ### CUT 7:supressing WW background by requiring missing energy consistent with neutrinos
+    ### CUT 4:supressing WW background by requiring missing energy consistent with neutrinos
     ######### remember, the cut means only keep events that have this...
-    #df = df.Alias("MissingETs", "MissingET")
-    #df = df.Define("missingET_E", "Sum(MissingET.energy)") 
-    #df = df.Filter("missingET_E > 20.0 && missingET_E < 50.0")   
-    #df = df.Define("cut7", "7") 
-    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut7"))
+    df = df.Alias("MissingETs", "MissingET")
+    df = df.Define("missingET_E", "Sum(MissingET.energy)") 
+    df = df.Filter("missingET_E > 42.0 && missingET_E < 50.0") 
+    df = df.Define("cut4", "4") 
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
 
 
     ######### WORKS BUT NOT DOING ANYTHING
@@ -328,8 +328,8 @@ def build_graph(df, dataset):
     hists.append(df.Histo1D(("invariant_mass", "", *bins_m_ll), "invariant_mass"))
 
     #plot the missing transverse energy distribution
-    df = df.Alias("MissingETs", "MissingET")
-    df = df.Define("missingET_E", "Sum(MissingET.energy)")
+    #df = df.Alias("MissingETs", "MissingET")
+    #df = df.Define("missingET_E", "Sum(MissingET.energy)")
     hists.append(df.Histo1D(("MissingET_dist", "", *bins_count), "missingET_E"))
 
     #plot the muon momentum

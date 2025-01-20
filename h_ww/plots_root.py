@@ -125,14 +125,15 @@ hists = {}
 
 hists["cutFlow"] = {
     "output":   "cutFlow",
-    "logy":     False,
+    "logy":     True,
     "stack":    True,
     "xmin":     0,
     "xmax":     5,
     "ymin":     1e1,
     #"ymax":     1e11,
-    "xtitle":   ["All events", "#geq 2 #mu^{#pm}", "2 OS #mu", "2OS, M_{#mu#mu}~M_{Z}"],
-                 #,"#gamma", "MET", "lowJets"], 
+    "xtitle":   ["All events", "#geq 2 #mu^{#pm}", "2 OS #mu", "2OS, M_{#mu#mu}~M_{Z}",
+                 "MET"],
+                   #"lowJets"], 
     "ytitle":   "Events ",
     "scaleSig": 1
 }
@@ -232,7 +233,7 @@ hists["invariant_mass"] = {
     "stack":    True,
     "rebin":    1,
     "xmin":     80,
-    "xmax":     100,
+    "xmax":     135,
     "ymin":     1,
     #"ymax":     1e6,
     "xtitle":   "Invariant mass (GeV)",
