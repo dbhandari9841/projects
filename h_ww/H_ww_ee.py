@@ -242,14 +242,31 @@ def build_graph(df, dataset):
     df = df.Define("cut2", "2")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut2"))
 
-   #########
-    ### CUT 3: require opposite-sign muons close to Z boson mass, (this is only to study Z peak) 
+    #########
+    ### CUT 3: muon momentum has a peak below 23, get rid of anything below 23 
+    #########
+    #df = df.Define("muons_p", "FCCAnalyses::ReconstructedParticle::get_p(muons)")
+    df = df.Filter("muons_p[0] > 30 && muons_p[1] > 30")
+    df = df.Define("cut3", "3")
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
+    
+    #########
+    ### CUT 4: require opposite-sign muons close to Z boson mass, (this is only to study Z peak) 
     #########
     df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
     df = df.Define("invariant_mass", "(leps_tlv[0] + leps_tlv[1]).M()") 
+    df = df.Filter("invariant_mass>63")
+    df = df.Define("cut4", "4")
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
+
+    #########
+    ### CUT : require opposite-sign muons close to Z boson mass, (this is only to study Z peak) 
+    #########
+    #df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
+    #df = df.Define("invariant_mass", "(leps_tlv[0] + leps_tlv[1]).M()") 
     #df = df.Filter("abs(invariant_mass - 91.2) < 10")
-    df = df.Define("cut3", "3")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
+    #df = df.Define("cut4", "4")
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
 
     ######### NOT REALLY FUNCTIONING
     # ####### PROBABLY BECAUSE WE'VE ALREADY FILTERED OUT THE MUONS
@@ -262,7 +279,7 @@ def build_graph(df, dataset):
     #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut5"))
 
     ######### WORKS BUT BRINGS DOWN SIGNAL ALONG WITH THE BACKGROUND
-    ### CUT 6:  looking at Zγ events, counting photon #s, removing events with energetic photons
+    ### CUT :  looking at Zγ events, counting photon #s, removing events with energetic photons
     ######### #this works but brings down the signal line together with the background
     #photon alias
     df = df.Alias("Photons", "Photon#0.index")
@@ -274,13 +291,13 @@ def build_graph(df, dataset):
     #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut6"))
 
     ######### SEEMS TO BE WORKING BUT BRINGS DOWN SIGNAL ALONG WITH THE BACKGROUND 
-    ### CUT 4:supressing WW background by requiring missing energy consistent with neutrinos
+    ### CUT 6:supressing WW background by requiring missing energy consistent with neutrinos
     ######### remember, the cut means only keep events that have this...
     df = df.Alias("MissingETs", "MissingET")
     df = df.Define("missingET_E", "Sum(MissingET.energy)") 
-    df = df.Filter("missingET_E > 42.0 && missingET_E < 50.0") 
-    df = df.Define("cut4", "4") 
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
+    df = df.Filter("missingET_E > 47") 
+    df = df.Define("cut5", "5") 
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut5"))
 
 
     ######### WORKS BUT NOT DOING ANYTHING
