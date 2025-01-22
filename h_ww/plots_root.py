@@ -246,8 +246,8 @@ hists["invariant_mass"] = {
     "rebin":    1,
     "xmin":     80,
     "xmax":     140,
-    "ymin":     1,
-    #"ymax":     1e6,
+    "ymin":     1e3,
+    "ymax":     1e5,
     "xtitle":   "Invariant mass (GeV)",
     "ytitle":   "Events",
 }
