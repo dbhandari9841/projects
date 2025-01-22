@@ -13,11 +13,11 @@ ROOT.TH1.SetDefaultSumw2(ROOT.kTRUE)
 
 # list of all guns
 processList = {                  #signal
-    'wzp6_ee_nunuH_Hmumu_ecm240': {'fraction':1},
+    #'wzp6_ee_nunuH_Hmumu_ecm240': {'fraction':1},
     #'wzp6_ee_nunuH_Hbb_ecm240': {'fraction':1},  
     #'wzp6_ee_nunuH_Hss_ecm240': {'fraction':1},  #Z-->nunu,H-->mumu,qq
     #'wzp6_ee_nunuH_Hcc_ecm240': {'fraction':1},
-
+    'wzp6_ee_nunuH_HWW_ecm240': {'fraction':1},
     #'wzp6_ee_eeH_Hmumu_ecm240': {'fraction':1},
     #'wzp6_ee_eeH_Hbb_ecm240': {'fraction':1},  
     #'wzp6_ee_eeH_Hss_ecm240': {'fraction':1},          #Z-->ee, H-->mumu,qq 
@@ -29,10 +29,10 @@ processList = {                  #signal
     #'wzp6_ee_mumuH_Hcc_ecm240': {'fraction':1},
    ###############################################################################
                       #background
-    'wzp6_ee_nunuH_HZZ_ecm240': {'fraction':1},
-    'wzp6_ee_nunuH_HWW_ecm240': {'fraction':1},
+    #'wzp6_ee_nunuH_HZZ_ecm240': {'fraction':1},
+    
     #'wzp6_ee_nunuH_Haa_ecm240': {'fraction':1},     #Z-->nunu,H-->WW, ZZ, aa, Za, gg
-    'wzp6_ee_nunuH_HZa_ecm240': {'fraction':1},
+    #'wzp6_ee_nunuH_HZa_ecm240': {'fraction':1},
     #'wzp6_ee_nunuH_Hgg_ecm240': {'fraction':1},
     
     #'wzp6_ee_eeH_HZZ_ecm240': {'fraction':1},        
@@ -46,7 +46,10 @@ processList = {                  #signal
     #'wzp6_ee_mumuH_Haa_ecm240':  {'fraction':1},    #Z-->mumu,H-->WW, ZZ, aa, Za, gg
     #'wzp6_ee_mumuH_HZa_ecm240': {'fraction':1},
     #'wzp6_ee_mumuH_Hgg_ecm240': {'fraction':1}
-      
+
+
+    'p8_ee_ZZ_ecm240': {'fraction':.3},  #Direct ee to ZZ
+     'p8_ee_WW_ecm240': {'fraction':.1}        #Direct ee to WW
 }
 
 #if I understand this correctly, this code really doesn't care what's signal and what's background, it just plots everything. 
@@ -225,6 +228,8 @@ def build_graph(df, dataset):
     df = df.Define("cut0", "0")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut0"))
 
+    ##counting the initial number of events
+    initial_events = df.Count()
     #########
     ### CUT 1: select at least 2 muons
     #########
@@ -243,19 +248,21 @@ def build_graph(df, dataset):
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut2"))
 
     #########
-    ### CUT 3: muon momentum has a peak below 23, get rid of anything below 23 
+    ### CUT 3: muon momentum has a peak below 10, get rid of any high momentum muons 
     #########
-    #df = df.Define("muons_p", "FCCAnalyses::ReconstructedParticle::get_p(muons)")
-    df = df.Filter("muons_p[0] > 30 && muons_p[1] > 30")
+    
+    df = df.Filter("muons_p[0] > 18 && muons_p[1] > 18")
+    #df = df.Filter("muons_p[0] < 40 && muons_p[1] < 40")
     df = df.Define("cut3", "3")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
+
     
     #########
     ### CUT 4: require opposite-sign muons close to Z boson mass, (this is only to study Z peak) 
     #########
     df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
     df = df.Define("invariant_mass", "(leps_tlv[0] + leps_tlv[1]).M()") 
-    df = df.Filter("invariant_mass>63")
+    df = df.Filter("invariant_mass > 81")
     df = df.Define("cut4", "4")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
 
@@ -270,7 +277,7 @@ def build_graph(df, dataset):
 
     ######### NOT REALLY FUNCTIONING
     # ####### PROBABLY BECAUSE WE'VE ALREADY FILTERED OUT THE MUONS
-    ### CUT 5:getting rid of events with the additional high-momentum leptons to suppress WW, qqqq gone
+    ### CUT :getting rid of events with the additional high-momentum leptons to suppress WW, qqqq gone
     #########
     #df = df.Define("additional_muons", "FCCAnalyses::ReconstructedParticle::remove(muons_all, muons)")  #excluding muons selected so far
     #df = df.Define("additional_muons_p", "FCCAnalyses::ReconstructedParticle::get_p(additional_muons)")  #remaining ones' momentum
@@ -281,16 +288,16 @@ def build_graph(df, dataset):
    
 
     ######### SEEMS TO BE WORKING BUT BRINGS DOWN SIGNAL ALONG WITH THE BACKGROUND 
-    ### CUT 6:supressing WW background by requiring missing energy consistent with neutrinos
+    ### CUT 5:supressing WW background by requiring missing energy consistent with neutrinos
     ######### remember, the cut means only keep events that have this...
     df = df.Alias("MissingETs", "MissingET")
     df = df.Define("missingET_E", "Sum(MissingET.energy)") 
-    df = df.Filter("missingET_E > 47") 
+    df = df.Filter("(missingET_E > 20)") 
     df = df.Define("cut5", "5") 
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut5"))
 
     
-    ### CUT 7: getting rid of some of the ZZ background, photons from the lepton channel
+    ### CUT 6: getting rid of some of the ZZ background, photons from the lepton channel
     ######### #Max, min typa cuts are so good! More like what you'd expect when you do cuts
     #photon alias
     df = df.Alias("Photons", "Photon#0.index")
@@ -302,14 +309,18 @@ def build_graph(df, dataset):
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut6"))
 
     ######### WORKS BUT NOT DOING ANYTHING
-    ### CUT :Jets, cutting out exactly 4 jets for fully hadronic ZZ decay
+    ### CUT 7 :Jets, cutting out exactly 4 jets for fully hadronic ZZ decay
     ######### remember, the cut means only keep events that have this...
     #maybe jets are like MissingET here, fix that.
-    #df = df.Alias("Jets", "Jet")
-    #df = df.Define("n_jets",  "Jets.size()")
-    #df = df.Filter("n_jets<4")
-    #df = df.Define("cut7", "7") 
-    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut7"))
+    df = df.Alias("Jets", "Jet")
+    df = df.Define("n_jets",  "Jets.size()")
+    df = df.Filter("n_jets<=2")
+    df = df.Define("cut7", "7") 
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut7"))
+
+    #final number of events count
+    final_events=df.Count()
+    print("percent drop in events: ", (initial_events.GetValue()-final_events.GetValue())/initial_events.GetValue()*100)
 
     #########
     ### CUT : Cutting down the WW background's, looking at the missing transverse energy 
@@ -375,5 +386,8 @@ def build_graph(df, dataset):
     hists.append(df.Histo1D(("photon_num", "", *bins_count), "photon_num"))
 
     #Plotting missing energy dist
+
+
+
 
     return hists, weightsum

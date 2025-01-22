@@ -16,7 +16,8 @@ plotStatUnc    = False
 
 
 procs = {}
-procs['signal'] = {'nunuHmumu':['wzp6_ee_nunuH_Hmumu_ecm240'],
+procs['signal'] = {'nunuHWW':['wzp6_ee_nunuH_HWW_ecm240'],
+                   #'nunuHmumu':['wzp6_ee_nunuH_Hmumu_ecm240'],
                    #'nunuHbb':['wzp6_ee_nunuH_Hbb_ecm240'],
                    #'nunuHss':['wzp6_ee_nunuH_Hss_ecm240'],   #Z-->nunu,H-->mumu,qq
                    #'nunuHcc':['wzp6_ee_nunuH_Hcc_ecm240'],
@@ -33,10 +34,10 @@ procs['signal'] = {'nunuHmumu':['wzp6_ee_nunuH_Hmumu_ecm240'],
                    }
 
 procs['backgrounds'] =  {
-    'nunuHWW':['wzp6_ee_nunuH_HWW_ecm240'],
-    'nunuHZZ':['wzp6_ee_nunuH_HZZ_ecm240'],
+    
+    #'nunuHZZ':['wzp6_ee_nunuH_HZZ_ecm240'],
     #'nunuHaa':['wzp6_ee_nunuH_Haa_ecm240'], #Z-->nunu,H-->WW, ZZ, aa, Za, gg
-    'nunuHZa':['wzp6_ee_nunuH_HZa_ecm240'],
+    #'nunuHZa':['wzp6_ee_nunuH_HZa_ecm240'],
     #'nunuHgg':['wzp6_ee_nunuH_Hgg_ecm240'],
 
     #'eeHWW':['wzp6_ee_eeH_HWW_ecm240'],
@@ -50,11 +51,15 @@ procs['backgrounds'] =  {
     #'mumuHaa':['wzp6_ee_mumuH_Haa_ecm240'], #Z-->mumu,H-->WW, ZZ, aa, Za, gg
     #'mumuHZa':['wzp6_ee_mumuH_HZa_ecm240'],
     #'mumuHgg':['wzp6_ee_mumuH_Hgg_ecm240'],
+    
+
+    'ee_ZZ':['p8_ee_ZZ_ecm240'],  #Direct ee to ZZ
+     'ee_WW':['p8_ee_WW_ecm240'] #Direct ee to WW
     }
 
-
 colors = {}             #Signal
-colors['nunuHmumu'] = ROOT.kRed  #Red because we were looking at it primarily, might need to adjust
+colors['nunuHWW'] = ROOT.kRed
+#colors['nunuHmumu'] = ROOT.kRed  #Red because we were looking at it primarily, might need to adjust
 #colors['nunuHbb'] = ROOT.kRed+1
 #colors['nunuHss'] = ROOT.kRed+2
 #colors['nunuHcc'] = ROOT.kRed+3
@@ -71,9 +76,9 @@ colors['nunuHmumu'] = ROOT.kRed  #Red because we were looking at it primarily, m
 
 
             #Background
-colors['nunuHWW'] = ROOT.kBlue
-colors['nunuHZZ'] = ROOT.kGreen
-colors['nunuHZa'] = ROOT.kYellow
+
+#colors['nunuHZZ'] = ROOT.kGreen
+#colors['nunuHZa'] = ROOT.kYellow
 #colors['nunuHaa'] = ROOT.kPink+1
 #colors['nunuHgg'] = ROOT.kPink+2
 
@@ -89,10 +94,13 @@ colors['nunuHZa'] = ROOT.kYellow
 #colors['mumuHaa'] = ROOT.kPink+2
 #colors['mumuHgg'] = ROOT.kOrange+2
 
+colors['ee_ZZ'] = ROOT.kBlue
+colors['ee_WW'] = ROOT.kGreen
 
 
 legend = {}
-legend['nunuHmumu'] = "#nu #nu H #rightarrow #mu^{#plus}#mu^{#minus}"
+#legend['nunuHmumu'] = "#nu #nu H #rightarrow #mu^{#plus}#mu^{#minus}"
+legend['nunuHWW'] = "#nu #nu H #rightarrow WW"
 #legend['nunuHbb'] = "#nu #nu H #rightarrow b#bar{b}"
 #legend['nunuHss'] = "#nu #nu H #rightarrow s#bar{s}"
 #legend['nunuHcc'] = "#nu #nu H #rightarrow c#bar{c}"
@@ -105,10 +113,10 @@ legend['nunuHmumu'] = "#nu #nu H #rightarrow #mu^{#plus}#mu^{#minus}"
 #legend['mumuHss'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}s#bar{s}"
 #legend['mumuHcc'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}c#bar{c}"
 
-legend['nunuHWW'] = "#nu #nu H #rightarrow WW"
-legend['nunuHZZ'] = "#nu #nu H #rightarrow ZZ"
+
+#legend['nunuHZZ'] = "#nu #nu H #rightarrow ZZ"
 #legend['nunuHaa'] = "#nu #nu H #rightarrow aa"
-legend['nunuHZa'] = "#nu #nu H #rightarrow Za"
+#legend['nunuHZa'] = "#nu #nu H #rightarrow Za"
 #legend['nunuHgg'] = "#nu #nu H #rightarrow gg"
 #legend['eeHWW'] = "e^{#plus}e^{#minus}H #rightarrow WW"
 #legend['eeHZZ'] = "e^{#plus}e^{#minus}H #rightarrow ZZ"
@@ -121,6 +129,9 @@ legend['nunuHZa'] = "#nu #nu H #rightarrow Za"
 #legend['mumuHZa'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}Za"
 #legend['mumuHgg'] = "#mu^{#plus}#mu^{#minus}H #rightarrow #mu^{#plus}#mu^{#minus}gg"
 
+legend['ee_ZZ'] = "e^{#plus}e^{#minus} #rightarrow ZZ"
+legend['ee_WW'] = "e^{#plus}e^{#minus} #rightarrow WW"
+       
 hists = {}
 
 hists["cutFlow"] = {
@@ -128,12 +139,13 @@ hists["cutFlow"] = {
     "logy":     True,
     "stack":    True,
     "xmin":     0,
-    "xmax":     7,
-    "ymin":     1e1,
-    #"ymax":     1e11,
-    "xtitle":   ["All events", "#geq 2 #mu^{#pm}", "2 OS #mu", "#mu_p>30", "#mu_m>63", "MET>47", 
-                 "#gamma_n<=2 || Max#gamma_E<3"],
-                   #"Jets!=4"
+    "xmax":     8,
+    "ymin":     1e5,
+    "ymax":     1e8,
+    "xtitle":   ["All events", "#geq 2 #mu^{#pm}", "2 OS #mu", "#mu_p>18", "#mu^{+}#mu^{-}_m>81", "MET>20", 
+                 "#gamma_n<=2 || Max#gamma_E<3", "Jets<=2"],
+                   #mu_p<30#
+                   
     "ytitle":   "Events ",
     "scaleSig": 1
 }
@@ -182,8 +194,8 @@ hists["MissingET_dist"] = {
     "logy":     False,
     "stack":    True,
     "rebin":    1,
-    "xmin":     47,
-    "xmax":     52,
+    "xmin":     20,
+    "xmax":     50,
     "ymin":     1e-2,
     #"ymax":     1e8,
     "xtitle":   "Missing Energy (GeV)",
@@ -195,8 +207,8 @@ hists["muon_p_dist"] = {
     "logy":     False,
     "stack":    True,
     "rebin":    1,
-    "xmin":     30,
-    "xmax":     52,
+    "xmin":     18,
+    "xmax":     50,
     "ymin":     1e-2,
     #"ymax":     1e8,
     "xtitle":   "muon momentum",
@@ -208,12 +220,12 @@ hists["photon_energy"] = {
     "stack":    True,
     "rebin":    1,
     "xmin":     0,
-    "xmax":     15,
+    "xmax":     30,
     "ymin":     1e-2,
     #"ymax":     1e8,
     "xtitle":   "Photon Energy(GeV)",
     "ytitle":   "Events",
-}
+} 
 hists["photon_num"] = {
     "output":   "photon_num",
     "logy":     False,
@@ -233,7 +245,7 @@ hists["invariant_mass"] = {
     "stack":    True,
     "rebin":    1,
     "xmin":     80,
-    "xmax":     127,
+    "xmax":     140,
     "ymin":     1,
     #"ymax":     1e6,
     "xtitle":   "Invariant mass (GeV)",
