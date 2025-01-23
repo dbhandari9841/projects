@@ -16,6 +16,7 @@ plotStatUnc    = False
 
 
 procs = {}
+
 procs['signal'] = {'nunuHWW':['wzp6_ee_nunuH_HWW_ecm240'],
                    #'nunuHmumu':['wzp6_ee_nunuH_Hmumu_ecm240'],
                    #'nunuHbb':['wzp6_ee_nunuH_Hbb_ecm240'],
@@ -31,6 +32,7 @@ procs['signal'] = {'nunuHWW':['wzp6_ee_nunuH_HWW_ecm240'],
                    #'mumuHbb':['wzp6_ee_mumuH_Hbb_ecm240'],
                    #'mumuHss':['wzp6_ee_mumuH_Hss_ecm240'],      #Z-->mumu,H-->mumu,qq
                    #'mumuHcc':['wzp6_ee_mumuH_Hcc_ecm240']
+                   
                    }
 
 procs['backgrounds'] =  {
@@ -54,7 +56,8 @@ procs['backgrounds'] =  {
     
 
     'ee_ZZ':['p8_ee_ZZ_ecm240'],  #Direct ee to ZZ
-     'ee_WW':['p8_ee_WW_ecm240'] #Direct ee to WW
+    'ee_WW':['p8_ee_WW_ecm240'], #Direct ee to WW
+    
     }
 
 colors = {}             #Signal
@@ -131,18 +134,25 @@ legend['nunuHWW'] = "#nu #nu H #rightarrow WW"
 
 legend['ee_ZZ'] = "e^{#plus}e^{#minus} #rightarrow ZZ"
 legend['ee_WW'] = "e^{#plus}e^{#minus} #rightarrow WW"
-       
+
+
+#histogram_stack = {
+    #"wzp6_ee_nunuH_HWW_ecm240": {"stack": False},
+    #"p8_ee_ZZ_ecm240": {"stack": True},
+    #"p8_ee_WW_ecm240": {"stack": True},
+#}
+
 hists = {}
 
 hists["cutFlow"] = {
     "output":   "cutFlow",
+    "stack":    False,
     "logy":     True,
-    "stack":    True,
     "xmin":     0,
-    "xmax":     8,
-    "ymin":     1e5,
+    "xmax":     7,
+    "ymin":     1e3,
     "ymax":     1e8,
-    "xtitle":   ["All events", "#geq 2 #mu^{#pm}", "2 OS #mu", "#mu_p>18", "#mu^{+}#mu^{-}_m>81", "MET>20", 
+    "xtitle":   ["All events", "#geq 2 #mu^{#pm}", "2 OS #mu", "MET>20", "#mu_p>18", 
                  "#gamma_n<=2 || Max#gamma_E<3", "Jets<=2"],
                    #mu_p<30#
                    
@@ -192,7 +202,7 @@ hists["acolinearity"] = {
 hists["MissingET_dist"] = {
     "output":   "MissingET_dist",
     "logy":     False,
-    "stack":    True,
+    "stack":    False,
     "rebin":    1,
     "xmin":     20,
     "xmax":     50,
@@ -205,7 +215,7 @@ hists["MissingET_dist"] = {
 hists["muon_p_dist"] = {
     "output":   "muon_p_dist",
     "logy":     False,
-    "stack":    True,
+    "stack":    False,
     "rebin":    1,
     "xmin":     18,
     "xmax":     50,
@@ -217,7 +227,7 @@ hists["muon_p_dist"] = {
 hists["photon_energy"] = {
     "output":   "photon_energy",
     "logy":     False,
-    "stack":    True,
+    "stack":    False,
     "rebin":    1,
     "xmin":     0,
     "xmax":     30,
@@ -229,7 +239,7 @@ hists["photon_energy"] = {
 hists["photon_num"] = {
     "output":   "photon_num",
     "logy":     False,
-    "stack":    True,
+    "stack":    False,
     "rebin":    1,
     "xmin":     0,
     "xmax":     18,
@@ -244,9 +254,9 @@ hists["invariant_mass"] = {
     "logy":     True,
     "stack":    True,
     "rebin":    1,
-    "xmin":     80,
-    "xmax":     140,
-    "ymin":     1e3,
+    "xmin":     0,
+    "xmax":     130,
+    "ymin":     1e1,
     "ymax":     1e5,
     "xtitle":   "Invariant mass (GeV)",
     "ytitle":   "Events",

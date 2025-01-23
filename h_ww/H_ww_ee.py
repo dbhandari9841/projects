@@ -234,7 +234,6 @@ def build_graph(df, dataset):
     ### CUT 1: select at least 2 muons
     #########
     df = df.Filter("muons_no >= 2")
-
     df = df.Define("cut1", "1")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut1"))
 
@@ -247,30 +246,39 @@ def build_graph(df, dataset):
     df = df.Define("cut2", "2")
     hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut2"))
 
+    ######### SEEMS TO BE WORKING BUT BRINGS DOWN SIGNAL ALONG WITH THE BACKGROUND 
+    ### CUT 3:supressing WW background by requiring missing energy consistent with neutrinos
+    ######### remember, the cut means only keep events that have this...
+    df = df.Alias("MissingETs", "MissingET")
+    df = df.Define("missingET_E", "Sum(MissingET.energy)") 
+    df = df.Filter("(missingET_E > 20)") 
+    df = df.Define("cut3", "3") 
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
+
     #########
-    ### CUT 3: muon momentum has a peak below 10, get rid of any high momentum muons 
+    ### CUT 4: muon momentum has a peak below 10, get rid of any high momentum muons 
     #########
     
     df = df.Filter("muons_p[0] > 18 && muons_p[1] > 18")
     #df = df.Filter("muons_p[0] < 40 && muons_p[1] < 40")
-    df = df.Define("cut3", "3")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
+    df = df.Define("cut4", "4")
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
 
     
     #########
     ### CUT 4: require opposite-sign muons close to Z boson mass, (this is only to study Z peak) 
     #########
-    df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
-    df = df.Define("invariant_mass", "(leps_tlv[0] + leps_tlv[1]).M()") 
-    df = df.Filter("invariant_mass > 81")
-    df = df.Define("cut4", "4")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
+    #df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
+    #df = df.Define("invariant_mass", "(leps_tlv[0] + leps_tlv[1]).M()") 
+    #df = df.Filter("invariant_mass > 81")
+    #df = df.Define("cut4", "4")
+   # hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
 
     #########
     ### CUT : require opposite-sign muons close to Z boson mass, (this is only to study Z peak) 
     #########
-    #df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
-    #df = df.Define("invariant_mass", "(leps_tlv[0] + leps_tlv[1]).M()") 
+    df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
+    df = df.Define("invariant_mass", "(leps_tlv[0] + leps_tlv[1]).M()") 
     #df = df.Filter("abs(invariant_mass - 91.2) < 10")
     #df = df.Define("cut4", "4")
     #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
@@ -287,17 +295,9 @@ def build_graph(df, dataset):
 
    
 
-    ######### SEEMS TO BE WORKING BUT BRINGS DOWN SIGNAL ALONG WITH THE BACKGROUND 
-    ### CUT 5:supressing WW background by requiring missing energy consistent with neutrinos
-    ######### remember, the cut means only keep events that have this...
-    df = df.Alias("MissingETs", "MissingET")
-    df = df.Define("missingET_E", "Sum(MissingET.energy)") 
-    df = df.Filter("(missingET_E > 20)") 
-    df = df.Define("cut5", "5") 
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut5"))
-
     
-    ### CUT 6: getting rid of some of the ZZ background, photons from the lepton channel
+    
+    ### CUT 5: getting rid of some of the ZZ background, photons from the lepton channel
     ######### #Max, min typa cuts are so good! More like what you'd expect when you do cuts
     #photon alias
     df = df.Alias("Photons", "Photon#0.index")
@@ -305,18 +305,18 @@ def build_graph(df, dataset):
     df = df.Define("photons_e", "FCCAnalyses::ReconstructedParticle::get_e(photons)")
     df = df.Define("n_photons", "FCCAnalyses::ReconstructedParticle::get_n(photons)") #getn
     df = df.Filter("n_photons <=2  || Max(photons_e) < 4") #requiring >2 photons or photons with e < 4GeV
-    df = df.Define("cut6", "6")   #Max was the only way to make this work, otherwise it was giving me an error
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut6"))
+    df = df.Define("cut5", "5")   #Max was the only way to make this work, otherwise it was giving me an error
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut5"))
 
     ######### WORKS BUT NOT DOING ANYTHING
-    ### CUT 7 :Jets, cutting out exactly 4 jets for fully hadronic ZZ decay
+    ### CUT 6 :Jets, cutting out exactly 4 jets for fully hadronic ZZ decay
     ######### remember, the cut means only keep events that have this...
     #maybe jets are like MissingET here, fix that.
     df = df.Alias("Jets", "Jet")
     df = df.Define("n_jets",  "Jets.size()")
     df = df.Filter("n_jets<=2")
-    df = df.Define("cut7", "7") 
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut7"))
+    df = df.Define("cut6", "6") 
+    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut6"))
 
     #final number of events count
     final_events=df.Count()
