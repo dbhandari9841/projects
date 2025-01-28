@@ -62,7 +62,7 @@ procDict = "/ceph/submit/data/group/fcc/ee/generation/DelphesEvents/winter2023/I
 
 # additional/custom C++ functions
 includePaths = ["../functions/functions.h", "../functions/functions_gen.h"]
-
+includePaths = ["../functions/functions.h", "../functions/utils.h"]
 
 # output directory
 outputDir   = "output/"
@@ -83,9 +83,10 @@ bins_p_ll = (200, 0, 200) # 1 GeV bins
 bins_theta = (500, -5, 5)
 bins_phi = (500, -5, 5)
 
-bins_count = (50, 0, 50)
+bins_count = (80, 0, 200)
 bins_pdgid = (60, -30, 30)
 bins_charge = (10, -5, 5)
+bins_cutflow=(50, 0, 50)
 
 bins_cos = (100, -1, 1)
 bins_norm = (200, 0, 2)
@@ -226,7 +227,7 @@ def build_graph(df, dataset):
     ### CUT 0: all events
     #########
     df = df.Define("cut0", "0")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut0"))
+    hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut0"))
 
     ##counting the initial number of events
     initial_events = df.Count()
@@ -235,7 +236,7 @@ def build_graph(df, dataset):
     #########
     df = df.Filter("muons_no >= 2")
     df = df.Define("cut1", "1")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut1"))
+    hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut1"))
 
     #########
     ### CUT 2: require exactly 2 opposite-sign muons, this already is a good cut 
@@ -244,35 +245,40 @@ def build_graph(df, dataset):
     df = df.Filter("muons_no == 2 && (muons_q[0] + muons_q[1]) == 0")
 
     df = df.Define("cut2", "2")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut2"))
+    hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut2"))
 
     ######### SEEMS TO BE WORKING BUT BRINGS DOWN SIGNAL ALONG WITH THE BACKGROUND 
-    ### CUT 3:supressing WW background by requiring missing energy consistent with neutrinos
+    ### CUT :supressing WW background by requiring missing energy consistent with neutrinos
     ######### remember, the cut means only keep events that have this...
-    df = df.Alias("MissingETs", "MissingET")
-    df = df.Define("missingET_E", "Sum(MissingET.energy)") 
-    df = df.Filter("(missingET_E > 20)") 
+    #df = df.Alias("MissingETs", "MissingET")
+    #df = df.Define("missingET_E", "Sum(MissingET.energy)") 
+    #df = df.Filter("(missingET_E>82)") 
+    #df = df.Define("cut3", "3") 
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut3"))
+
+    # CUT3: missing energy/mass  #CUTS FOR MISSING ENERGY AND MASS BETTER BASED ON JANS SLIDES
+    df = df.Define("missingMass", "FCCAnalyses::missingMass(240., ReconstructedParticles)")
+    df = df.Filter("missingMass>102") 
     df = df.Define("cut3", "3") 
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut3"))
+    hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut3"))
 
     #########
     ### CUT 4: muon momentum has a peak below 10, get rid of any high momentum muons 
     #########
     
-    df = df.Filter("muons_p[0] > 18 && muons_p[1] > 18")
-    #df = df.Filter("muons_p[0] < 40 && muons_p[1] < 40")
+    df = df.Filter("(muons_p[0] > 16 && muons_p[1] > 16) && (muons_p[0] < 50 && muons_p[1] < 50)")
     df = df.Define("cut4", "4")
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
+    hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut4"))
 
-    
+
     #########
-    ### CUT 4: require opposite-sign muons close to Z boson mass, (this is only to study Z peak) 
+    ### CUT : require opposite-sign muons close to Z boson mass, (this is only to study Z peak) 
     #########
     #df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
     #df = df.Define("invariant_mass", "(leps_tlv[0] + leps_tlv[1]).M()") 
     #df = df.Filter("invariant_mass > 81")
     #df = df.Define("cut4", "4")
-   # hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut4"))
 
     #########
     ### CUT : require opposite-sign muons close to Z boson mass, (this is only to study Z peak) 
@@ -281,7 +287,7 @@ def build_graph(df, dataset):
     df = df.Define("invariant_mass", "(leps_tlv[0] + leps_tlv[1]).M()") 
     #df = df.Filter("abs(invariant_mass - 91.2) < 10")
     #df = df.Define("cut4", "4")
-    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut4"))
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut4"))
 
     ######### NOT REALLY FUNCTIONING
     # ####### PROBABLY BECAUSE WE'VE ALREADY FILTERED OUT THE MUONS
@@ -304,9 +310,9 @@ def build_graph(df, dataset):
     df = df.Define("photons", "FCCAnalyses::ReconstructedParticle::get(Photons, ReconstructedParticles)") #photon object, get transverse momentum
     df = df.Define("photons_e", "FCCAnalyses::ReconstructedParticle::get_e(photons)")
     df = df.Define("n_photons", "FCCAnalyses::ReconstructedParticle::get_n(photons)") #getn
-    df = df.Filter("n_photons <=2  || Max(photons_e) < 4") #requiring >2 photons or photons with e < 4GeV
+    df = df.Filter("n_photons >=7  || Max(photons_e) > 7") #requiring >2 photons or photons with e < 4GeV
     df = df.Define("cut5", "5")   #Max was the only way to make this work, otherwise it was giving me an error
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut5"))
+    hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut5"))
 
     ######### WORKS BUT NOT DOING ANYTHING
     ### CUT 6 :Jets, cutting out exactly 4 jets for fully hadronic ZZ decay
@@ -316,7 +322,17 @@ def build_graph(df, dataset):
     df = df.Define("n_jets",  "Jets.size()")
     df = df.Filter("n_jets<=2")
     df = df.Define("cut6", "6") 
-    hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut6"))
+    hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut6"))
+
+   
+    # CUT7: WW decay mode  #FIXED STRUCTURE LOGIC, BUT < > LOGIC NEEDS TO BE FIXED
+    #It seems 100% means 99.999999
+    df = df.Define("ww_decay_mode", "FCCAnalyses::ww_decay_mode(Particle, Particle0)")
+    hists.append(df.Histo1D(("ww_decay_mode", "", *(50, -25, 25)), "ww_decay_mode"))
+    if dataset == "wzp6_ee_nunuH_HWW_ecm240":
+            df = df.Filter("(abs(ww_decay_mode[0])==13 && abs(ww_decay_mode[2])==13)")
+    df = df.Define("cut7", "7") 
+    hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut7"))
 
     #final number of events count
     final_events=df.Count()
@@ -328,7 +344,7 @@ def build_graph(df, dataset):
     #df = df.Define("MET", "FCCAnalyses::getMET(ReconstructedParticles)")
     #df = df.Filter("MET < 30")
     #df = df.Define("cut5", "5")
-    #hists.append(df.Histo1D(("cutFlow", "", *bins_count), "cut5"))
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut5"))
 
 
     
@@ -359,7 +375,7 @@ def build_graph(df, dataset):
     #plot the missing transverse energy distribution
     #df = df.Alias("MissingETs", "MissingET")
     #df = df.Define("missingET_E", "Sum(MissingET.energy)")
-    hists.append(df.Histo1D(("MissingET_dist", "", *bins_count), "missingET_E"))
+    #hists.append(df.Histo1D(("MissingET_dist", "", *bins_count), "missingET_E"))
 
     #plot the muon momentum
     hists.append(df.Histo1D(("muon_p_dist", "", *bins_count), "muons_p"))
@@ -385,9 +401,13 @@ def build_graph(df, dataset):
     df = df.Define("photon_num", "FCCAnalyses::ReconstructedParticle::get_n(photons)")
     hists.append(df.Histo1D(("photon_num", "", *bins_count), "photon_num"))
 
-    #Plotting missing energy dist
+    
+    # Plot the missingMass 
+    hists.append(df.Histo1D(("missingMass", "", *bins_count), "missingMass"))
 
-
+    # Plot the decay mode of the WW
+    
+  
 
 
     return hists, weightsum
