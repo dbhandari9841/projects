@@ -328,16 +328,27 @@ def build_graph(df, dataset):
     # CUT7: WW decay mode  #FIXED STRUCTURE LOGIC, BUT < > LOGIC NEEDS TO BE FIXED
     #It seems 100% means 99.999999
     df = df.Define("ww_decay_mode", "FCCAnalyses::ww_decay_mode(Particle, Particle0)")
-    hists.append(df.Histo1D(("ww_decay_mode", "", *(50, -25, 25)), "ww_decay_mode"))
-    if dataset == "wzp6_ee_nunuH_HWW_ecm240":
-            df = df.Filter("(abs(ww_decay_mode[0])==13 && abs(ww_decay_mode[2])==13)")
-    df = df.Define("cut7", "7") 
-    hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut7"))
+    #hists.append(df.Histo1D(("ww_decay_mode", "", *(50, -25, 25)), "ww_decay_mode"))
+    #if dataset == "wzp6_ee_nunuH_HWW_ecm240":
+            #df = df.Filter("(abs(ww_decay_mode[0])==13 && abs(ww_decay_mode[2])==13)")
+    #df = df.Define("cut7", "7") 
+    #hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut7"))
 
     #final number of events count
     final_events=df.Count()
     print("percent drop in events: ", (initial_events.GetValue()-final_events.GetValue())/initial_events.GetValue()*100)
 
+
+    if dataset == "wzp6_ee_nunuH_HWW_ecm240":
+        signal_events = df.Count()
+        print(f"Remaining number of signal events: {signal_events.GetValue()}")
+
+    elif dataset == "p8_ee_ZZ_ecm240":
+        background_events_ZZ = df.Count()
+        print(f"Remaining number of background events (ZZ): {background_events_ZZ.GetValue()}")
+    elif dataset == "p8_ee_WW_ecm240":
+        background_events_WW = df.Count()
+        print(f"Remaining number of background events (WW): {background_events_WW.GetValue()}")
     #########
     ### CUT : Cutting down the WW background's, looking at the missing transverse energy 
     #########
