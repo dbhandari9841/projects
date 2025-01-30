@@ -138,45 +138,40 @@ legend['ee_WW'] = "e^{#plus}e^{#minus} #rightarrow WW"
 
 histogram_stack = {
     "wzp6_ee_nunuH_HWW_ecm240": {"stack": False},
-    "p8_ee_ZZ_ecm240": {"stack": True},
-    "p8_ee_WW_ecm240": {"stack": True},
+    "p8_ee_ZZ_ecm240": {"stack": False},
+    "p8_ee_WW_ecm240": {"stack": False},
 }
 
 hists = {}
 
 hists["cutFlow"] = {
     "output":   "cutFlow",
-    "stack":    [  
-        {"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": histogram_stack["wzp6_ee_nunuH_HWW_ecm240"]["stack"]},
-        {"name": "p8_ee_ZZ_ecm240", "stack": histogram_stack["p8_ee_ZZ_ecm240"]["stack"]},
-        {"name": "p8_ee_WW_ecm240", "stack": histogram_stack["p8_ee_WW_ecm240"]["stack"]},
-    ],
     "logy":     True,
     "xmin":     0,
-    "xmax":     8,
+    "xmax":     9,
     "ymin":     1e2,
-    "ymax":     1e8,
-    "xtitle":   ["All events", "#geq 2 #mu^{#pm}", "2 OS #mu","missingMass>102", "16<#mu_p<50", 
-                 "#gamma_n>=7 || Max#gamma_E>7", "Jets<=2", "|PdgID|=13"],
-                   #mu_p<30#
+    "ymax":     1e9,
+    "xtitle":   ["All events", "#==2 lep", "OS for combos", "missingMass>130","30<missingET<70", "20<#mu_p e_p<38", "had_energy<27",
+                 "#gamma_n<3 && #gamma_E<7", "n_jets<=2"],
+                   #hadronic energy, "|PdgID|"
                    
     "ytitle":   "Events ",
     "scaleSig": 1
 }
 
 
-hists["muons_all_costheta"] = {
-    "output":   "muons_all_costheta",
-    "logy":     False,
-    "stack":    True,
-    "rebin":    1,
-    "xmin":     -1,
-    "xmax":     1,
-    "ymin":     0.1,
-    #"ymax":     1e8,
-    "xtitle":   "cos(#theta)",
-    "ytitle":   "Events",
-}
+#hists["muons_all_costheta"] = {
+ #   "output":   "muons_all_costheta",
+ #   "logy":     False,
+ #   "stack":    True,
+ #   "rebin":    1,
+ #   "xmin":     -1,
+ ###   "xmax":     1,
+   # "ymin":     0.1,
+   # #"ymax":     1e8,
+   # "xtitle":   "cos(#theta)",
+   # "ytitle":   "Events",
+#}
 
 #hists["muon_max_p_norm"] = {
  #   "output":   "muon_max_p_norm",
@@ -194,11 +189,9 @@ hists["muons_all_costheta"] = {
 hists["acolinearity"] = {
     "output":   "acolinearity",
     "logy":     False,
-    "stack":    [  
-        {"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": histogram_stack["wzp6_ee_nunuH_HWW_ecm240"]["stack"]},
-        {"name": "p8_ee_ZZ_ecm240", "stack": histogram_stack["p8_ee_ZZ_ecm240"]["stack"]},
-        {"name": "p8_ee_WW_ecm240", "stack": histogram_stack["p8_ee_WW_ecm240"]["stack"]},
-    ],
+    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        {"name": "p8_ee_ZZ_ecm240", "stack":True},
+        {"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
     "xmax":     1,
@@ -207,47 +200,43 @@ hists["acolinearity"] = {
     "xtitle":   "Acolinearity (rad)",
     "ytitle":   "Events",
 }
-#hists["MissingET_dist"] = {
-   # "output":   "MissingET_dist",
-   # "logy":     False,
-   # "stack":    [  
-   #     {"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": histogram_stack["wzp6_ee_nunuH_HWW_ecm240"]["stack"]},
-   #     {"name": "p8_ee_ZZ_ecm240", "stack": histogram_stack["p8_ee_ZZ_ecm240"]["stack"]},
-   ##     {"name": "p8_ee_WW_ecm240", "stack": histogram_stack["p8_ee_WW_ecm240"]["stack"]},
-   # ],
-   ## "rebin":    1,
-    #"xmin":     0,
-    #"xmax":     100,
-    #"ymin":     1e-2,
-    #"ymax":     1e8,
-   # "xtitle":   "Missing Energy (GeV)",
-   # "ytitle":   "Events",
-#}
-
-hists["muon_p_dist"] = {
-    "output":   "muon_p_dist",
-    "logy":     False,
-    "stack":    [  
-        {"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": histogram_stack["wzp6_ee_nunuH_HWW_ecm240"]["stack"]},
-        {"name": "p8_ee_ZZ_ecm240", "stack": histogram_stack["p8_ee_ZZ_ecm240"]["stack"]},
-        {"name": "p8_ee_WW_ecm240", "stack": histogram_stack["p8_ee_WW_ecm240"]["stack"]},
-    ],
+hists["MissingET_dist"] = {
+    "output":   "MissingET_dist",
+    "logy":     True,
+    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        {"name": "p8_ee_ZZ_ecm240", "stack":True},
+        {"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
-    "xmax":     100,
+    "xmax":     200,
     "ymin":     1e-2,
-    #"ymax":     1e8,
-    "xtitle":   "muon momentum",
+    "ymax":     1e8,
+    "xtitle":   "Missing Energy (GeV)",
     "ytitle":   "Events",
 }
+
+#hists["muon_p_dist"] = {
+ #   "output":   "muon_p_dist",
+ #   "logy":     False,
+ #   "stack":    [  
+ #       {"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": histogram_stack["wzp6_ee_nunuH_HWW_ecm240"]["stack"]},
+ #       {"name": "p8_ee_ZZ_ecm240", "stack": histogram_stack["p8_ee_ZZ_ecm240"]["stack"]},
+ #       {"name": "p8_ee_WW_ecm240", "stack": histogram_stack["p8_ee_WW_ecm240"]["stack"]},
+ #   ],
+ #   "rebin":    1,
+ #   "xmin":     0,
+ #   "xmax":     100,
+ ##   "ymin":     1e-2,
+    #"ymax":     1e8,
+  #  "xtitle":   "muon momentum",
+  #  "ytitle":   "Events",
+#}
 hists["photon_energy"] = {
     "output":   "photon_energy",
     "logy":     False,
-    "stack":    [  
-        {"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": histogram_stack["wzp6_ee_nunuH_HWW_ecm240"]["stack"]},
-        {"name": "p8_ee_ZZ_ecm240", "stack": histogram_stack["p8_ee_ZZ_ecm240"]["stack"]},
-        {"name": "p8_ee_WW_ecm240", "stack": histogram_stack["p8_ee_WW_ecm240"]["stack"]},
-    ],
+    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        {"name": "p8_ee_ZZ_ecm240", "stack":True},
+        {"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
     "xmax":     30,
@@ -276,16 +265,14 @@ hists["photon_num"] = {
 hists["invariant_mass"] = {
     "output":   "invariant_mass",
     "logy":     True,
-    "stack":    [  
-        {"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": histogram_stack["wzp6_ee_nunuH_HWW_ecm240"]["stack"]},
-        {"name": "p8_ee_ZZ_ecm240", "stack": histogram_stack["p8_ee_ZZ_ecm240"]["stack"]},
-        {"name": "p8_ee_WW_ecm240", "stack": histogram_stack["p8_ee_WW_ecm240"]["stack"]},
-    ],
+    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        {"name": "p8_ee_ZZ_ecm240", "stack":True},
+        {"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
     "xmax":     130,
     "ymin":     1e1,
-    "ymax":     1e5,
+    "ymax":     1e8,
     "xtitle":   "Invariant mass (GeV)",
     "ytitle":   "Events",
 }
@@ -305,11 +292,9 @@ if 'signal' == "wzp6_ee_nunuH_HWW_ecm240":
 hists["missingMass"] = {
     "output":   "missingMass",
     "logy":     True,
-    "stack":    [  
-        {"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": histogram_stack["wzp6_ee_nunuH_HWW_ecm240"]["stack"]},
-        {"name": "p8_ee_ZZ_ecm240", "stack": histogram_stack["p8_ee_ZZ_ecm240"]["stack"]},
-        {"name": "p8_ee_WW_ecm240", "stack": histogram_stack["p8_ee_WW_ecm240"]["stack"]},
-    ],
+    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        {"name": "p8_ee_ZZ_ecm240", "stack":True},
+        {"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
     "xmax":     200,
@@ -318,6 +303,68 @@ hists["missingMass"] = {
     "xtitle":   "missingMass",
     "ytitle":   "Events",
 }
+hists["hadronicEnergy"] = {
+    "output":   "HadronicEnergy",
+    "logy":     True,
+    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        {"name": "p8_ee_ZZ_ecm240", "stack":True},
+        {"name": "p8_ee_WW_ecm240", "stack": True}],
+    "rebin":    1,
+    "xmin":     0,
+    "xmax":     200,
+    "ymin":     1e1,
+    "ymax":     1e8,
+    "xtitle":   "Hadronic Energy",
+    "ytitle":   "Events",
+}
+
+
+
+hists["muon_soft_p_dist"] = {
+    "output":   "muon_soft_p_dist",
+    "logy":     False,
+    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        {"name": "p8_ee_ZZ_ecm240", "stack":True},
+        {"name": "p8_ee_WW_ecm240", "stack": True}],
+    "rebin":    1,
+    "xmin":     0,
+    "xmax":     100,
+    "ymin":     1e-2,
+    #"ymax":     1e8,
+    "xtitle":   "soft muons momentum",
+    "ytitle":   "Events",
+}
+
+hists["electrons_soft_p_dist"] = {
+    "output":   "electrons_soft_p_dist",
+    "logy":     False,
+    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        {"name": "p8_ee_ZZ_ecm240", "stack":True},
+        {"name": "p8_ee_WW_ecm240", "stack": True}],
+    "rebin":    1,
+    "xmin":     0,
+    "xmax":     100,
+    "ymin":     1e-2,
+    #"ymax":     1e8,
+    "xtitle":   "soft electrons momentum",
+    "ytitle":   "Events",
+}
+
+hists["n_jets"] = {
+    "output":   "n_jets",
+    "logy":     False,
+    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        {"name": "p8_ee_ZZ_ecm240", "stack":True},
+        {"name": "p8_ee_WW_ecm240", "stack": True}],
+    "rebin":    1,
+    "xmin":     0,
+    "xmax":     18,
+    "ymin":     1e-2,
+    #"ymax":     1e8,
+    "xtitle":   "Number of jets",
+    "ytitle":   "Events",
+}
+
 #hists["muon1_p"] = {
 #    "output":   "muon1_p",
 #    "logy":     True,
