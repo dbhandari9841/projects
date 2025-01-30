@@ -268,14 +268,14 @@ def build_graph(df, dataset):
     ### CUT 1: 2 leptons
     #########
     #########
-    df = df.Filter("(electrons_soft_no == 1 && electrons_soft_no == 1)") 
+    df = df.Filter("(electrons_soft_no == 2)") 
     df = df.Define("cut1", "1")
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut1"))
 
     #########
     ### CUT 2: opposite charge on the leptons, trying to see 
     #########
-    df = df.Filter("(electrons_soft_q[0] == -electrons_soft_q[0])") 
+    df = df.Filter("(electrons_soft_q[0] == -electrons_soft_q[1])") 
                    #(muons_soft_q[0] == -electrons_soft_q[1]) || (muons_soft_q[1] == -electrons_soft_q[0]) || (muons_soft_q[1] == -electrons_soft_q[1])")
     df = df.Define("cut2", "2")
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut2"))
