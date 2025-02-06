@@ -148,10 +148,10 @@ hists["cutFlow"] = {
     "output":   "cutFlow",
     "logy":     True,
     "xmin":     0,
-    "xmax":     9,
+    "xmax":     11,
     "ymin":     1e2,
     "ymax":     1e9,
-    "xtitle":   ["All events", "#==2 lep", "OS for combos", "missingMass>130","30<missingET<70", "20<#mu_p e_p<38", "had_energy<27",
+    "xtitle":   ["All events", "#==2 lep", "OS for combos", "missingMass>130","30<missingET<70", "#mu_p e_p<38", "had_energy<20",
                  "#gamma_n<3 && #gamma_E<7", "n_jets<=2"],
                    #hadronic energy, "|PdgID|"
                    
@@ -189,9 +189,9 @@ hists["cutFlow"] = {
 hists["acolinearity"] = {
     "output":   "acolinearity",
     "logy":     False,
-    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
-        {"name": "p8_ee_ZZ_ecm240", "stack":True},
-        {"name": "p8_ee_WW_ecm240", "stack": True}],
+    #"stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+      #  {"name": "p8_ee_ZZ_ecm240", "stack":True},
+       # {"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
     "xmax":     1,
@@ -203,9 +203,9 @@ hists["acolinearity"] = {
 hists["MissingET_dist"] = {
     "output":   "MissingET_dist",
     "logy":     True,
-    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
-        {"name": "p8_ee_ZZ_ecm240", "stack":True},
-        {"name": "p8_ee_WW_ecm240", "stack": True}],
+    #"stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+    #    {"name": "p8_ee_ZZ_ecm240", "stack":True},
+     #   {"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
     "xmax":     200,
@@ -233,10 +233,10 @@ hists["MissingET_dist"] = {
 #}
 hists["photon_energy"] = {
     "output":   "photon_energy",
-    "logy":     False,
-    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
-        {"name": "p8_ee_ZZ_ecm240", "stack":True},
-        {"name": "p8_ee_WW_ecm240", "stack": True}],
+    "logy":     True,
+    #"stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+       # {"name": "p8_ee_ZZ_ecm240", "stack":True},
+        #{"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
     "xmax":     30,
@@ -247,12 +247,12 @@ hists["photon_energy"] = {
 } 
 hists["photon_num"] = {
     "output":   "photon_num",
-    "logy":     False,
-    "stack":    [  
-        {"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": histogram_stack["wzp6_ee_nunuH_HWW_ecm240"]["stack"]},
-        {"name": "p8_ee_ZZ_ecm240", "stack": histogram_stack["p8_ee_ZZ_ecm240"]["stack"]},
-        {"name": "p8_ee_WW_ecm240", "stack": histogram_stack["p8_ee_WW_ecm240"]["stack"]},
-    ],
+    "logy":     True,
+    #"stack":    [  
+       # {"signal": "wzp6_ee_nunuH_HWW_ecm240", "stack": histogram_stack["wzp6_ee_nunuH_HWW_ecm240"]["stack"]},
+       # {"backgrounds": "p8_ee_ZZ_ecm240", "stack": histogram_stack["p8_ee_ZZ_ecm240"]["stack"]},
+        #{"backgrounds": "p8_ee_WW_ecm240", "stack": histogram_stack["p8_ee_WW_ecm240"]["stack"]},
+    #],
     "rebin":    1,
     "xmin":     0,
     "xmax":     18,
@@ -265,9 +265,9 @@ hists["photon_num"] = {
 hists["invariant_mass"] = {
     "output":   "invariant_mass",
     "logy":     True,
-    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
-        {"name": "p8_ee_ZZ_ecm240", "stack":True},
-        {"name": "p8_ee_WW_ecm240", "stack": True}],
+    #"stack": [{"signal": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        #{"name": "p8_ee_ZZ_ecm240", "stack":True},
+        #{"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
     "xmax":     130,
@@ -276,11 +276,13 @@ hists["invariant_mass"] = {
     "xtitle":   "Invariant mass (GeV)",
     "ytitle":   "Events",
 }
+
+
 if 'signal' == "wzp6_ee_nunuH_HWW_ecm240":
     hists["ww_decay_mode"] = {
         "output":   "ww_decay_mode",
         "logy":     True,
-        "stack":    False,
+        #"stack":    False,
         "rebin":    1,
         "xmin":     -20,
         "xmax":     20,
@@ -289,12 +291,14 @@ if 'signal' == "wzp6_ee_nunuH_HWW_ecm240":
         "xtitle":   "ww_decay_mode",
         "ytitle":   "Events",
 }
+    
+
 hists["missingMass"] = {
     "output":   "missingMass",
     "logy":     True,
-    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
-        {"name": "p8_ee_ZZ_ecm240", "stack":True},
-        {"name": "p8_ee_WW_ecm240", "stack": True}],
+    #"stack": [{"signal": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        #{"backgrounds": "p8_ee_ZZ_ecm240", "stack":True},
+        #{"backgrounds": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
     "xmax":     200,
@@ -303,12 +307,14 @@ hists["missingMass"] = {
     "xtitle":   "missingMass",
     "ytitle":   "Events",
 }
+
+
 hists["hadronicEnergy"] = {
     "output":   "HadronicEnergy",
     "logy":     True,
-    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
-        {"name": "p8_ee_ZZ_ecm240", "stack":True},
-        {"name": "p8_ee_WW_ecm240", "stack": True}],
+    #"stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        #{"name": "p8_ee_ZZ_ecm240", "stack":True},
+        #{"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
     "xmax":     200,
@@ -322,10 +328,10 @@ hists["hadronicEnergy"] = {
 
 hists["muon_soft_p_dist"] = {
     "output":   "muon_soft_p_dist",
-    "logy":     False,
-    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
-        {"name": "p8_ee_ZZ_ecm240", "stack":True},
-        {"name": "p8_ee_WW_ecm240", "stack": True}],
+    "logy":     True,
+    #"stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        #{"name": "p8_ee_ZZ_ecm240", "stack":True},
+        #{"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
     "xmax":     100,
@@ -337,10 +343,10 @@ hists["muon_soft_p_dist"] = {
 
 hists["electrons_soft_p_dist"] = {
     "output":   "electrons_soft_p_dist",
-    "logy":     False,
-    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
-        {"name": "p8_ee_ZZ_ecm240", "stack":True},
-        {"name": "p8_ee_WW_ecm240", "stack": True}],
+    "logy":     True,
+    #"stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        #{"name": "p8_ee_ZZ_ecm240", "stack":True},
+        #{"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
     "xmax":     100,
@@ -352,10 +358,10 @@ hists["electrons_soft_p_dist"] = {
 
 hists["n_jets"] = {
     "output":   "n_jets",
-    "logy":     False,
-    "stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
-        {"name": "p8_ee_ZZ_ecm240", "stack":True},
-        {"name": "p8_ee_WW_ecm240", "stack": True}],
+    "logy":     True,
+    #"stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
+        #{"name": "p8_ee_ZZ_ecm240", "stack":True},
+       # {"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
     "xmax":     18,

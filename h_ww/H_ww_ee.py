@@ -48,8 +48,8 @@ processList = {                  #signal
     #'wzp6_ee_mumuH_Hgg_ecm240': {'fraction':1}
 
 
-    'p8_ee_ZZ_ecm240': {'fraction':.1},  #Direct ee to ZZ .0375
-     'p8_ee_WW_ecm240': {'fraction':.1}        #Direct ee to WW .011
+    'p8_ee_ZZ_ecm240': {'fraction':1},  #Direct ee to ZZ .0375
+     'p8_ee_WW_ecm240': {'fraction':1}        #Direct ee to WW .011
 }
 
 #if I understand this correctly, this code really doesn't care what's signal and what's background, it just plots everything. 
@@ -255,27 +255,35 @@ def build_graph(df, dataset):
 
     #Okay, cut flow is what shows what remains after each cut... makes sense now.
 
+    
+
     #hists.append(df.Histo1D(("WW_qq_mass", "WW(cc) mass", 100, 0, 200), "WW_qq_mass"))
     #########
     ### CUT 0: all events
     #########
     df = df.Define("cut0", "0")
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut0"))
-
+    
+    ##WWdecay pdgid
+    if dataset == "wzp6_ee_nunuH_HWW_ecm240":
+        df = df.Define("ww_decay", "FCCAnalyses::ww_decay_mode(Particle, Particle1)")
+        df = df.Filter("abs(ww_decay[0]) == 13 || abs(ww_decay[0]) == 11") # muon for first W
+        df = df.Filter("abs(ww_decay[2]) == 13 || abs(ww_decay[2]) == 11") # muon for second W
     ##counting the initial number of events
+
     initial_events = df.Count()
     #########
     ### CUT 1: 2 leptons
     #########
     #########
-    df = df.Filter("(electrons_soft_no == 2)") 
+    df = df.Filter("(electrons_soft_no == 1) && (muons_soft_no == 1) ") 
     df = df.Define("cut1", "1")
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut1"))
 
     #########
     ### CUT 2: opposite charge on the leptons, trying to see 
     #########
-    df = df.Filter("(electrons_soft_q[0] == -electrons_soft_q[1])") 
+    df = df.Filter("(electrons_soft_q[0] == -muons_soft_q[0])") 
                    #(muons_soft_q[0] == -electrons_soft_q[1]) || (muons_soft_q[1] == -electrons_soft_q[0]) || (muons_soft_q[1] == -electrons_soft_q[1])")
     df = df.Define("cut2", "2")
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut2"))
@@ -291,7 +299,7 @@ def build_graph(df, dataset):
 
     # CUT3: missing energy/mass  #CUTS FOR MISSING ENERGY AND MASS BETTER BASED ON JANS SLIDES
     df = df.Define("missingMass", "FCCAnalyses::missingMass(240., ReconstructedParticles)")
-    #df = df.Filter("missingMass>130") 
+    df = df.Filter("missingMass>130") 
     df = df.Define("cut3", "3") 
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut3"))
 
@@ -301,16 +309,16 @@ def build_graph(df, dataset):
     #########
     df = df.Alias("MissingETs", "MissingET")
     df = df.Define("missingET_E", "Sum(MissingET.energy)") 
-    #df = df.Filter("(missingET_E>30)&&(missingET_E<70)") 
+    df = df.Filter("(missingET_E>30)&&(missingET_E<70)") 
     df = df.Define("cut4", "4")
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut4"))
 
     #########
     ### CUT 5: muon momentum has a peak below 10, get rid of any high momentum muons 
     #########
-    #df = df.Filter("(muons_soft_p[0] > 20 && electrons_soft_p[0] > 20) && (muons_soft_p[0] < 38 && electrons_soft_p[0] < 38)")
-    #df = df.Filter("(muons_soft_p[0] > 20 && muons_soft_p[1] > 20) && (muons_soft_p[0] < 38 && muons_soft_p[1] < 38)")
-    #df = df.Filter("(electrons_soft_p[0] > 20 && electrons_soft_p[1] > 20) && (electrons_soft_p[0] < 38 && electrons_soft_p[1] < 38)")
+    #df = df.Filter("(muons_soft_p[0] < 50 && electrons_soft_p[0] < 50)")
+    df = df.Filter("(electrons_soft_p[0] < 50 && muons_soft_p[0] < 50)")
+    #df = df.Filter(" (electrons_soft_p[0] < 50 && electrons_soft_p[1] < 50)")
     df = df.Define("cut5", "5")
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut5"))
 
@@ -320,7 +328,7 @@ def build_graph(df, dataset):
     df = df.Define("rps_no_muons", "FCCAnalyses::ReconstructedParticle::remove(ReconstructedParticles, muons_all)")
     df = df.Define("rps_no_muons_electrons", "FCCAnalyses::ReconstructedParticle::remove(rps_no_muons, electrons_all)")
     df = df.Define("hadronicEnergy", "FCCAnalyses::visibleEnergy(rps_no_muons_electrons)")
-    #df = df.Filter("hadronicEnergy < 27")
+    df = df.Filter("hadronicEnergy < 20")
     df = df.Define("cut6", "6")
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut6"))
 
@@ -363,7 +371,7 @@ def build_graph(df, dataset):
     df = df.Define("photons", "FCCAnalyses::ReconstructedParticle::get(Photons, ReconstructedParticles)") #photon object, get transverse momentum
     df = df.Define("photons_e", "FCCAnalyses::ReconstructedParticle::get_e(photons)")
     df = df.Define("n_photons", "FCCAnalyses::ReconstructedParticle::get_n(photons)") #getn
-    #df = df.Filter("n_photons <3  && photons_e[0] < 7") 
+    df = df.Filter("n_photons <3  && photons_e[0] < 7") 
     df = df.Define("cut7", "7")   #Max was the only way to make this work, otherwise it was giving me an error
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut7"))
 
@@ -373,7 +381,7 @@ def build_graph(df, dataset):
     #maybe jets are like MissingET here, fix that.
     df = df.Alias("Jets", "Jet")
     df = df.Define("n_jets",  "Jets.size()")
-    #df = df.Filter("n_jets<=2")
+    df = df.Filter("n_jets<=2")
     df = df.Define("cut8", "8") 
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut8"))
 
