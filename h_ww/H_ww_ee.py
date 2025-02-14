@@ -49,7 +49,7 @@ processList = {                  #signal
 
 
     'p8_ee_ZZ_ecm240': {'fraction':1},  #Direct ee to ZZ .0375
-     'p8_ee_WW_ecm240': {'fraction':1}        #Direct ee to WW .011
+    'p8_ee_WW_ecm240': {'fraction':1}        #Direct ee to WW .011
 }
 
 #if I understand this correctly, this code really doesn't care what's signal and what's background, it just plots everything. 
@@ -77,11 +77,18 @@ intLumi = 10.8e6 # 44.84 pb-1 = LEP, 100e6=100 ab-1 = FCCee
 
 # define histograms
 bins_p_mu = (200, 0, 200) # 1 GeV bins
-bins_m_ll = (200, 0, 200) # 1 GeV bins
+bins_m_ll = (240, 0, 240) # 1 GeV bins
 bins_p_ll = (200, 0, 200) # 1 GeV bins
+
+bins_hadronicEnergy = (200, 0, 300)
+bins_invMass = (200, 0, 200)
+bins_photonE=(60, 0, 60)
+bins_photonN=(30, 0, 30)
 
 bins_theta = (500, -5, 5)
 bins_phi = (500, -5, 5)
+bins_muon_soft = (200, 0, 200)
+bins_electron_soft = (200, 0, 200)
 
 bins_m = (250, 0, 250) 
 bins_count = (80, 0, 200)
@@ -276,14 +283,14 @@ def build_graph(df, dataset):
     ### CUT 1: 2 leptons
     #########
     #########
-    df = df.Filter("(electrons_soft_no == 1) && (muons_soft_no == 1) ") 
+    #df = df.Filter("(electrons_soft_no == 1) && (muons_soft_no == 1) ") 
     df = df.Define("cut1", "1")
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut1"))
 
     #########
     ### CUT 2: opposite charge on the leptons, trying to see 
     #########
-    df = df.Filter("(electrons_soft_q[0] == -muons_soft_q[0])") 
+    #df = df.Filter("(electrons_soft_q[0] == -muons_soft_q[0])") 
                    #(muons_soft_q[0] == -electrons_soft_q[1]) || (muons_soft_q[1] == -electrons_soft_q[0]) || (muons_soft_q[1] == -electrons_soft_q[1])")
     df = df.Define("cut2", "2")
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut2"))
@@ -299,7 +306,7 @@ def build_graph(df, dataset):
 
     # CUT3: missing energy/mass  #CUTS FOR MISSING ENERGY AND MASS BETTER BASED ON JANS SLIDES
     df = df.Define("missingMass", "FCCAnalyses::missingMass(240., ReconstructedParticles)")
-    df = df.Filter("missingMass>130") 
+   # df = df.Filter("missingMass>130") 
     df = df.Define("cut3", "3") 
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut3"))
 
@@ -309,7 +316,7 @@ def build_graph(df, dataset):
     #########
     df = df.Alias("MissingETs", "MissingET")
     df = df.Define("missingET_E", "Sum(MissingET.energy)") 
-    df = df.Filter("(missingET_E>30)&&(missingET_E<70)") 
+    #df = df.Filter("(missingET_E>30)&&(missingET_E<70)") 
     df = df.Define("cut4", "4")
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut4"))
 
@@ -317,7 +324,7 @@ def build_graph(df, dataset):
     ### CUT 5: muon momentum has a peak below 10, get rid of any high momentum muons 
     #########
     #df = df.Filter("(muons_soft_p[0] < 50 && electrons_soft_p[0] < 50)")
-    df = df.Filter("(electrons_soft_p[0] < 50 && muons_soft_p[0] < 50)")
+    #df = df.Filter("(electrons_soft_p[0] < 50 && muons_soft_p[0] < 50)")
     #df = df.Filter(" (electrons_soft_p[0] < 50 && electrons_soft_p[1] < 50)")
     df = df.Define("cut5", "5")
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut5"))
@@ -328,7 +335,7 @@ def build_graph(df, dataset):
     df = df.Define("rps_no_muons", "FCCAnalyses::ReconstructedParticle::remove(ReconstructedParticles, muons_all)")
     df = df.Define("rps_no_muons_electrons", "FCCAnalyses::ReconstructedParticle::remove(rps_no_muons, electrons_all)")
     df = df.Define("hadronicEnergy", "FCCAnalyses::visibleEnergy(rps_no_muons_electrons)")
-    df = df.Filter("hadronicEnergy < 20")
+    #df = df.Filter("hadronicEnergy < 20")
     df = df.Define("cut6", "6")
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut6"))
 
@@ -371,7 +378,7 @@ def build_graph(df, dataset):
     df = df.Define("photons", "FCCAnalyses::ReconstructedParticle::get(Photons, ReconstructedParticles)") #photon object, get transverse momentum
     df = df.Define("photons_e", "FCCAnalyses::ReconstructedParticle::get_e(photons)")
     df = df.Define("n_photons", "FCCAnalyses::ReconstructedParticle::get_n(photons)") #getn
-    df = df.Filter("n_photons <3  && photons_e[0] < 7") 
+    #df = df.Filter("n_photons <3  && photons_e[0] < 7") 
     df = df.Define("cut7", "7")   #Max was the only way to make this work, otherwise it was giving me an error
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut7"))
 
@@ -381,7 +388,7 @@ def build_graph(df, dataset):
     #maybe jets are like MissingET here, fix that.
     df = df.Alias("Jets", "Jet")
     df = df.Define("n_jets",  "Jets.size()")
-    df = df.Filter("n_jets<=2")
+    #df = df.Filter("n_jets<=2")
     df = df.Define("cut8", "8") 
     hists.append(df.Histo1D(("cutFlow", "", *bins_cutflow), "cut8"))
 
@@ -435,23 +442,31 @@ def build_graph(df, dataset):
     # plot invariant mass of both muons
     #df = df.Define("leps_tlv", "FCCAnalyses::makeLorentzVectors(muons)")
     #df = df.Define("invariant_mass", "(leps_tlv[0]+leps_tlv[1]).M()")
-    hists.append(df.Histo1D(("invariant_mass", "", *bins_m_ll), "invariant_mass"))
+    overflow_invMass = 199  #assigning overflow events to the last bin
+    df = df.Define("invMass_clamped", f"invariant_mass > {overflow_invMass} ? {overflow_invMass} : invariant_mass")
+    hists.append(df.Histo1D(("invariant_mass", "invariant_mass", *bins_invMass), "invMass_clamped"))
+    #hists.append(df.Histo1D(("invariant_mass", "", *bins_invMass), "invariant_mass"))
 
-    #plot the missing transverse energy distribution
-    
+    #plot the missing transverse energy distribution, no overflow for this one, ends early
     hists.append(df.Histo1D(("MissingET_dist", "", *bins_count), "missingET_E"))
-    
    
     hists.append(df.Histo1D(("n_jets", "", *bins_count), "n_jets"))
     
-    hists.append(df.Histo1D(("hadronicEnergy", "", *bins_count), "hadronicEnergy"))
+
+    #plot the hadronic energy
+    overflow_hadronicEnergy = 249
+    df = df.Define("hadronicEnergy_clamped", f"hadronicEnergy > {overflow_hadronicEnergy} ? {overflow_hadronicEnergy} : hadronicEnergy")
+    hists.append(df.Histo1D(("hadronicEnergy", "hadronicEnergy", *bins_hadronicEnergy), "hadronicEnergy_clamped"))
     
     #plot the muon momentum
-    hists.append(df.Histo1D(("muon_soft_p_dist", "", *bins_count), "muons_soft_p"))
-    hists.append(df.Histo1D(("electrons_soft_p_dist", "", *bins_count), "electrons_soft_p"))
+    overflow_muon_p = 123
+    overflow_electron_p = 123
+    df = df.Define("muons_soft_p_clamped", f"muons_soft_p[0] > {overflow_muon_p} ? {overflow_muon_p} : muons_soft_p[0]")
+    df = df.Define("electrons_soft_p_clamped", f"electrons_soft_p[0] > {overflow_electron_p} ? {overflow_electron_p} : electrons_soft_p[0]")
+    hists.append(df.Histo1D(("muons_soft_p_dist", "muons_soft_p_dist", *bins_muon_soft), "muons_soft_p_clamped"))
+    hists.append(df.Histo1D(("electrons_soft_p_dist", "electrons_soft_p_dist", *bins_electron_soft), "electrons_soft_p_clamped"))
 
     #LATER PLOT THE ELECTRON MOMENTUM DISTRIBUTION
-
 
     # Plot invariant mass of bottom quark pairs
     #df = df.Define("bottoms_tlv", "FCCAnalyses::makeLorentzVectors(bottoms)")
@@ -463,18 +478,25 @@ def build_graph(df, dataset):
     #df = df.Define("charm_invariant_mass", "(charms_tlv[0] + charms_tlv[1]).M()")
     #hists.append(df.Histo1D(("charm_invariant_mass", "", *bins_m_ll), "charm_invariant_mass"))
 
-    #Plotting Energy Distributions of the Photons #perhaps move these to before the cuts
-    df = df.Define("photon_energy", "FCCAnalyses::ReconstructedParticle::get_e(photons)")
-    hists.append(df.Histo1D(("photon_energy", "", *bins_count), "photon_energy"))
-
+   
     #Plotting number dist of the Photons
+    overflow_photonN = 29
     df = df.Define("photon_num", "FCCAnalyses::ReconstructedParticle::get_n(photons)")
-    hists.append(df.Histo1D(("photon_num", "", *bins_count), "photon_num"))
+    df = df.Define("photon_num_clamped", f"photon_num > {overflow_photonN} ? {overflow_photonN} : photon_num")
+    hists.append(df.Histo1D(("photon_num", "photon_num", *bins_photonN), "photon_num_clamped"))
     
-    # Plot the missingMass 
-    hists.append(df.Histo1D(("missingMass", "", *bins_count), "missingMass"))
+    #missing mass
+    overflow_missingMass = 239  #assigning overflow events to the last bin
+    df = df.Define("missingMass_clamped", f"missingMass > {overflow_missingMass} ? {overflow_missingMass} : missingMass")
+    hists.append(df.Histo1D(("missingMass", "missingMass", *bins_m_ll), "missingMass_clamped"))
 
-    # Plot the decay mode of the WW
-    
+    #hists.append(df.Histo1D(("missingMass", "", *bins_count), "missingMass"))
+
+    #Plotting Energy Distributions of the Photons #perhaps move these to before the cuts
+    overflow_photonE = 59 
+    df = df.Define("photon_energy", "FCCAnalyses::ReconstructedParticle::get_e(photons)")
+    df = df.Define("photon_energy_clamped", f"photon_energy[0] > {overflow_photonE} ? {overflow_photonE} : photon_energy[0]")
+    hists.append(df.Histo1D(("photon_energy", "photon_energy", *bins_photonE), "photon_energy_clamped"))
+
 
     return hists, weightsum

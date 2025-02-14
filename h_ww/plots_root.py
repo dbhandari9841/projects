@@ -134,7 +134,21 @@ legend['nunuHWW'] = "#nu #nu H #rightarrow WW"
 
 legend['ee_ZZ'] = "e^{#plus}e^{#minus} #rightarrow ZZ"
 legend['ee_WW'] = "e^{#plus}e^{#minus} #rightarrow WW"
+#legend(loc=(1.01,0)) #legend location  
 
+#legend(loc=(1.01,0)) #Luca's Advice
+
+
+# Create a legend with a custom position
+#leg = ROOT.TLegend(0.6, 0.7, 0.9, 0.9)  # Adjust these values for placement
+
+# Add entries to the legend
+#leg.AddEntry("nunuHWW", "#nu #nu H #rightarrow WW", "l")
+#leg.AddEntry("ee_ZZ", "e^{#plus}e^{#minus} #rightarrow ZZ", "l")
+#leg.AddEntry("ee_WW", "e^{#plus}e^{#minus} #rightarrow WW", "l")
+
+# Draw the legend
+#leg.Draw()
 
 histogram_stack = {
     "wzp6_ee_nunuH_HWW_ecm240": {"stack": False},
@@ -147,14 +161,14 @@ hists = {}
 hists["cutFlow"] = {
     "output":   "cutFlow",
     "logy":     True,
-    "xmin":     0,
-    "xmax":     11,
+    "xmin":     1,
+    "xmax":     9,
     "ymin":     1e2,
     "ymax":     1e9,
     "xtitle":   ["All events", "#==2 lep", "OS for combos", "missingMass>130","30<missingET<70", "#mu_p e_p<38", "had_energy<20",
                  "#gamma_n<3 && #gamma_E<7", "n_jets<=2"],
                    #hadronic energy, "|PdgID|"
-                   
+                
     "ytitle":   "Events ",
     "scaleSig": 1
 }
@@ -208,10 +222,10 @@ hists["MissingET_dist"] = {
      #   {"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
-    "xmax":     200,
+    "xmax":     128,
     "ymin":     1e-2,
     "ymax":     1e8,
-    "xtitle":   "Missing Energy (GeV)",
+    "xtitle":   "Missing energy (GeV)",
     "ytitle":   "Events",
 }
 
@@ -239,7 +253,7 @@ hists["photon_energy"] = {
         #{"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
-    "xmax":     30,
+    "xmax":     60,
     "ymin":     1e-2,
     #"ymax":     1e8,
     "xtitle":   "Photon Energy(GeV)",
@@ -255,7 +269,7 @@ hists["photon_num"] = {
     #],
     "rebin":    1,
     "xmin":     0,
-    "xmax":     18,
+    "xmax":     30,
     "ymin":     1e-2,
     #"ymax":     1e8,
     "xtitle":   "Photon number",
@@ -270,7 +284,7 @@ hists["invariant_mass"] = {
         #{"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
-    "xmax":     130,
+    "xmax":     200,
     "ymin":     1e1,
     "ymax":     1e8,
     "xtitle":   "Invariant mass (GeV)",
@@ -301,10 +315,10 @@ hists["missingMass"] = {
         #{"backgrounds": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
-    "xmax":     200,
+    "xmax":     240,
     "ymin":     1e1,
     "ymax":     1e8,
-    "xtitle":   "missingMass",
+    "xtitle":   "Missing mass (GeV)",
     "ytitle":   "Events",
 }
 
@@ -317,27 +331,27 @@ hists["hadronicEnergy"] = {
         #{"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
     "xmin":     0,
-    "xmax":     200,
+    "xmax":     250,
     "ymin":     1e1,
     "ymax":     1e8,
-    "xtitle":   "Hadronic Energy",
+    "xtitle":   "Hadronic Energy (GeV)",
     "ytitle":   "Events",
 }
 
 
 
-hists["muon_soft_p_dist"] = {
-    "output":   "muon_soft_p_dist",
+hists["muons_soft_p_dist"] = {
+    "output":   "muons_soft_p_dist",
     "logy":     True,
     #"stack": [{"name": "wzp6_ee_nunuH_HWW_ecm240", "stack": False},
         #{"name": "p8_ee_ZZ_ecm240", "stack":True},
         #{"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
-    "xmin":     0,
-    "xmax":     100,
+    "xmin":     9,
+    "xmax":     124,
     "ymin":     1e-2,
-    #"ymax":     1e8,
-    "xtitle":   "soft muons momentum",
+    "ymax":     1e8,
+    "xtitle":   "Soft muons momentum (GeV/c)",
     "ytitle":   "Events",
 }
 
@@ -348,11 +362,11 @@ hists["electrons_soft_p_dist"] = {
         #{"name": "p8_ee_ZZ_ecm240", "stack":True},
         #{"name": "p8_ee_WW_ecm240", "stack": True}],
     "rebin":    1,
-    "xmin":     0,
-    "xmax":     100,
+    "xmin":     9,
+    "xmax":     124,
     "ymin":     1e-2,
     #"ymax":     1e8,
-    "xtitle":   "soft electrons momentum",
+    "xtitle":   "Soft electrons momentum (GeV/c)",
     "ytitle":   "Events",
 }
 
