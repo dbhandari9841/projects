@@ -134,6 +134,7 @@ legend['nunuHWW'] = "#nu #nu H #rightarrow WW"
 
 legend['ee_ZZ'] = "e^{#plus}e^{#minus} #rightarrow ZZ"
 legend['ee_WW'] = "e^{#plus}e^{#minus} #rightarrow WW"
+
 #legend(loc=(1.01,0)) #legend location  
 
 #legend(loc=(1.01,0)) #Luca's Advice
@@ -259,6 +260,7 @@ hists["photon_energy"] = {
     "xtitle":   "Photon Energy(GeV)",
     "ytitle":   "Events",
 } 
+
 hists["photon_num"] = {
     "output":   "photon_num",
     "logy":     True,
@@ -410,3 +412,8 @@ hists["n_jets"] = {
  #   "xtitle":   "muon2_momentum",
  #   "ytitle":   "Events",
 #}
+#leg = ROOT.TLegend(0.6, 0.7, 0.9, 0.9) 
+#leg.SetTextSize(0.01)
+#leg.Draw()
+
+
